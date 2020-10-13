@@ -12,10 +12,11 @@ public class LightBulb : MonoBehaviour
     }
 
   
-    public void InputChanged_AndGate1(int new_value)
+    public void InputChanged(int new_value)
     {
+        if (input_value == new_value) return;
         input_value = new_value;
-        Debug.Log("In " + this.name + " InputChanged_AndGate1, input_value = " + input_value);
+        Debug.Log("In " + this.name + " InputChanged, input_value = " + input_value);
         if (input_value == 0)
         {
             mysprite = Resources.Load<Sprite>("Light bulb off transparent");

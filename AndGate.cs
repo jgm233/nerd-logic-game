@@ -33,21 +33,22 @@ public class AndGate : MonoBehaviour
             _out = 0;
         }
         GameObject _lightbulb = GameObject.Find("LightBulb"); 
-        _lightbulb.SendMessage("InputChanged_" + this.name, _out);
+        _lightbulb.SendMessage("InputChanged", _out);
     }
 
+    // New comment
     
-    public void InputChanged_InputSwitch1(int switch_value)
+    public void InputChanged_a(int input_value)
     {
-        Debug.Log("In " + this.name + " InputChanged_InputSwitch1, switch_value = " + switch_value);
-        _a = switch_value;
+        Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
+        _a = input_value;
         EvaluateGate();
     }
 
-    public void InputChanged_InputSwitch2(int switch_value)
+    public void InputChanged_b(int input_value)
     {
-        Debug.Log("In " + this.name + " InputChanged_InputSwitch2, switch_value = " + switch_value);
-        _b = switch_value;
+        Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
+        _b = input_value;
         EvaluateGate();
     }
 }

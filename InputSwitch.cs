@@ -37,7 +37,10 @@ public class InputSwitch : MonoBehaviour
         Debug.Log("In switch mouse down, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
         //gameObject.SendMessage("InputChanged_" + this.name, switch_value);
         GameObject _andgate1 = GameObject.Find("AndGate1");
-        _andgate1.SendMessage("InputChanged_" + this.name, switch_value);
+        if (this.name == "InputSwitch1")
+           _andgate1.SendMessage("InputChanged_a", switch_value);
+        else
+            _andgate1.SendMessage("InputChanged_b", switch_value);
     }
 
     private void OnMouseUp()
