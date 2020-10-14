@@ -1,7 +1,6 @@
-﻿using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class AndGate : MonoBehaviour
+public class NandGate : MonoBehaviour
 {
     LineRenderer l_renderer;
     bool _a, _b, _out;
@@ -10,7 +9,7 @@ public class AndGate : MonoBehaviour
     void Start()
     {
         l_renderer = GetComponent<LineRenderer>();
-        Debug.Log("In and gate start, line renderer = " + l_renderer.name);
+        Debug.Log("In nand gate start, line renderer = " + l_renderer.name);
         l_renderer.startColor = Color.black;
         l_renderer.endColor = Color.black;
         l_renderer.startWidth = 0.1f;
@@ -21,37 +20,39 @@ public class AndGate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void EvaluateGate()
     {
-        _out = (_a & _b);
+        _out = !(_a & _b);
         // LevelController _levelController = GetComponent<LevelController>();
         LevelController _levelController = FindObjectOfType<LevelController>();
 
         if (_levelController == null)
         {
             Debug.Log("didn't find LevelController");
-        } else
+        }
+        else
         {
             string[] _logic_components = _levelController.GetThisLevelsComponents();
-            for (int i = 0; i < _logic_components.Length; i += 4) 
+            for (int i = 0; i < _logic_components.Length; i += 4)
             {
                 if (_logic_components[i] == this.name)
                 {
                     Debug.Log("matched name:  " + this.name);
-                    GameObject _destination = GameObject.Find(_logic_components[i+2]);
+                    GameObject _destination = GameObject.Find(_logic_components[i + 2]);
                     _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
                                              _out);
-                } else
+                }
+                else
                 {
                     Debug.Log("not matched name:  " + _logic_components[i]);
                 }
             }
         }
-//        GameObject _lightbulb = GameObject.Find("LightBulb"); 
-//        _lightbulb.SendMessage("InputChanged_input", _out);
+        //        GameObject _lightbulb = GameObject.Find("LightBulb"); 
+        //        _lightbulb.SendMessage("InputChanged_input", _out);
     }
 
     // New comment

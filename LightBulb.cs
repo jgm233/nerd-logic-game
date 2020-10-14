@@ -2,22 +2,22 @@
 
 public class LightBulb : MonoBehaviour
 {
-    private int input_value;
+    private bool input_value;
     private Sprite mysprite;
 
     // Start is called before the first frame update
     void Start()
     {
-        input_value = 0;
+        input_value = false;
     }
 
   
-    public void InputChanged_input(int new_value)
+    public void InputChanged_input(bool new_value)
     {
         if (input_value == new_value) return;
         input_value = new_value;
         Debug.Log("In " + this.name + " InputChanged, input_value = " + input_value);
-        if (input_value == 0)
+        if (input_value == false)
         {
             mysprite = Resources.Load<Sprite>("Light bulb off transparent");
             GetComponent<SpriteRenderer>().sprite = mysprite;

@@ -15,12 +15,14 @@ public class LevelController : MonoBehaviour
          "InputSwitch1 switch_value AndGate1 a " +
             "InputSwitch2 switch_value AndGate1 b " +
             "AndGate1 _out LightBulb input",
-         "InputSwitch1 _out OrGate1 a " +
-            "InputSwitch2 _out OrGate1 b " +
-            "OrGate1 _out LightBulb input" };
+         "InputSwitch1 _out AndGate1 a " +
+            "InputSwitch2 _out AndGate1 b " +
+            "InputSwitch3 _out NandGate1 b " +
+            "AndGate1 _out NandGate1 a " +
+            "NandGate1 _out LightBulb input" };
 
   
-    private static int _nextLevelIndex = 1;
+    private static int _nextLevelIndex = 2;
 
     public string[] GetThisLevelsComponents()
     {
