@@ -12,7 +12,7 @@ public class LightBulb : MonoBehaviour
     }
 
   
-    public void InputChanged(int new_value)
+    public void InputChanged_input(int new_value)
     {
         if (input_value == new_value) return;
         input_value = new_value;

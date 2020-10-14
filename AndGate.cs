@@ -25,15 +25,32 @@ public class AndGate : MonoBehaviour
 
     private void EvaluateGate()
     {
-        if (_a == 1 && _b == 1)
+        _out = (_a & _b);
+        // LevelController _levelController = GetComponent<LevelController>();
+        LevelController _levelController = FindObjectOfType<LevelController>();
+
+        if (_levelController == null)
         {
-            _out = 1;
+            Debug.Log("didn't find LevelController");
         } else
         {
-            _out = 0;
+            string[] _logic_components = _levelController.GetThisLevelsComponents();
+            for (int i = 0; i < _logic_components.Length; i += 4) 
+            {
+                if (_logic_components[i] == this.name)
+                {
+                    Debug.Log("matched name:  " + this.name);
+                    GameObject _destination = GameObject.Find(_logic_components[i+2]);
+                    _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
+                                             _out);
+                } else
+                {
+                    Debug.Log("not matched name:  " + _logic_components[i]);
+                }
+            }
         }
-        GameObject _lightbulb = GameObject.Find("LightBulb"); 
-        _lightbulb.SendMessage("InputChanged", _out);
+//        GameObject _lightbulb = GameObject.Find("LightBulb"); 
+//        _lightbulb.SendMessage("InputChanged_input", _out);
     }
 
     // New comment

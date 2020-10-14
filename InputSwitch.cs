@@ -34,13 +34,38 @@ public class InputSwitch : MonoBehaviour
             mysprite = Resources.Load<Sprite>("Switch up");
             GetComponent<SpriteRenderer>().sprite = mysprite;
         }
-        Debug.Log("In switch mouse down, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
-        //gameObject.SendMessage("InputChanged_" + this.name, switch_value);
-        GameObject _andgate1 = GameObject.Find("AndGate1");
-        if (this.name == "InputSwitch1")
-           _andgate1.SendMessage("InputChanged_a", switch_value);
+        Debug.Log("In switch mouse down, mysprite = " + 
+                  GetComponent<SpriteRenderer>().sprite.name);
+
+        LevelController _levelController = FindObjectOfType<LevelController>();
+
+        if (_levelController == null)
+        {
+            Debug.Log("didn't find LevelController");
+        }
         else
-            _andgate1.SendMessage("InputChanged_b", switch_value);
+        {
+            string[] _logic_components = _levelController.GetThisLevelsComponents();
+            for (int i = 0; i < _logic_components.Length; i += 4)
+            {
+                if (_logic_components[i] == this.name)
+                {
+                    Debug.Log("matched name:  " + this.name);
+                    GameObject _destination = GameObject.Find(_logic_components[i + 2]);
+                    _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
+                                             switch_value);
+                }
+                else
+                {
+                    Debug.Log("not matched name:  " + _logic_components[i]);
+                }
+            }
+        }
+        //GameObject _andgate1 = GameObject.Find("AndGate1");
+        //if (this.name == "InputSwitch1")
+        // _andgate1.SendMessage("InputChanged_a", switch_value);
+        //else
+        //  _andgate1.SendMessage("InputChanged_b", switch_value);
     }
 
     private void OnMouseUp()
