@@ -10,7 +10,7 @@ public class InputSwitch : MonoBehaviour
  
     private void Start ()
     {
-        switch_value = false;
+        switch_value = true;
         //GetComponent<SpriteRenderer>().color = Color.green;
         Debug.Log("In '" + this.name + "' start, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
         l_renderer = GetComponent<LineRenderer>();
@@ -19,6 +19,8 @@ public class InputSwitch : MonoBehaviour
         l_renderer.endColor = Color.black;
         l_renderer.startWidth = 0.1f;
         l_renderer.endWidth = 0.1f;
+        OnMouseDown();
+        OnMouseUp();
     }
 
     private void OnMouseDown()
@@ -61,11 +63,6 @@ public class InputSwitch : MonoBehaviour
                 }
             }
         }
-        //GameObject _andgate1 = GameObject.Find("AndGate1");
-        //if (this.name == "InputSwitch1")
-        // _andgate1.SendMessage("InputChanged_a", switch_value);
-        //else
-        //  _andgate1.SendMessage("InputChanged_b", switch_value);
     }
 
     private void OnMouseUp()
