@@ -29,7 +29,7 @@ public class LevelController : MonoBehaviour
     };
 
   
-    private static int _nextLevelIndex = 3;
+    private static int _nextLevelIndex = 1;
     private const int _maxLevel = 3;
     private static int _totalCoins = 0;
     private int _centiCoinsThisLevel = 10000;
