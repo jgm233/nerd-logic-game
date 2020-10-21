@@ -31,7 +31,7 @@ public class NandGate : MonoBehaviour
         else
         {
             string[] _logic_components = _levelController.GetThisLevelsComponents();
-            Debug.Log("in evaluate gate for " + this.name);
+            // Debug.Log("in evaluate gate for " + this.name);
             for (int i = 0; i < _logic_components.Length; i += 4)
             {
                 if (_logic_components[i] == this.name)

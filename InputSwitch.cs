@@ -39,10 +39,10 @@ public class InputSwitch : MonoBehaviour
         //          GetComponent<SpriteRenderer>().sprite.name);
 
         LevelController _levelController = FindObjectOfType<LevelController>();
-
+        _levelController.AdvanceClock();
 
         string[] _logic_components = _levelController.GetThisLevelsComponents();
-        Debug.Log("in evaluate for " + this.name);
+        // Debug.Log("in evaluate for " + this.name);
         for (int i = 0; i < _logic_components.Length; i += 4)
         {
             if (_logic_components[i] == this.name)

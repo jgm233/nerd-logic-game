@@ -28,7 +28,7 @@ public class AndGate : MonoBehaviour
         } else
         {
             string[] _logic_components = _levelController.GetThisLevelsComponents();
-            Debug.Log("in evaluate gate for " + this.name);
+            // Debug.Log("in evaluate gate for " + this.name);
             for (int i = 0; i < _logic_components.Length; i += 4) 
             {
                 if (_logic_components[i] == this.name)
@@ -51,14 +51,14 @@ public class AndGate : MonoBehaviour
 
     public void InputChanged_a(bool input_value)
     {
-        // Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
+        Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
         _a = input_value;
         EvaluateGate();
     }
 
     public void InputChanged_b(bool input_value)
     {
-        // Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
+        Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
         _b = input_value;
         EvaluateGate();
     }

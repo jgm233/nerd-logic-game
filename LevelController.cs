@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class LevelController : MonoBehaviour
 {
     // String describing login in each level
@@ -25,20 +26,35 @@ public class LevelController : MonoBehaviour
             "InputSwitch2 _out AndGate1 b " +
             "InputSwitch3 _out NandGate1 b " +
             "AndGate1 _out NandGate1 a " +
-            "NandGate1 _out LightBulb input"
+            "NandGate1 _out LightBulb input",
+         "InputSwitch1 _out AndGate1 a " +
+            "InputSwitch1 _out Inverter1 a " +
+            "Inverter1 _out AndGate1 b " +            
+            "AndGate1 _out LightBulb input"
     };
 
   
     private static int _nextLevelIndex = 1;
-    private const int _maxLevel = 3;
+    private const int _maxLevel = 4;
+    private int _clock_period = 0;
     private static int _totalCoins = 0;
     private int _centiCoinsThisLevel = 10000;
-    private Text tc_text, cc_text;
+    private Text tc_text, cc_text, glitch_text;
     private bool _scoreAdded = false;
+
+    public void AdvanceClock()
+    {
+        _clock_period++;
+    }
+
+    public int GetClockPeriod()
+    {
+        return _clock_period;
+    }
 
     public string[] GetThisLevelsComponents()
     {
-        Debug.Log("logic string for level " + _nextLevelIndex + " " + _logic_in_level[_nextLevelIndex]);
+        //Debug.Log("logic string for level " + _nextLevelIndex + " " + _logic_in_level[_nextLevelIndex]);
         return (_logic_in_level[_nextLevelIndex].Split(' '));
     }
 
@@ -60,19 +76,19 @@ public class LevelController : MonoBehaviour
         myCanvas.renderMode = RenderMode.WorldSpace;
         myGO.AddComponent<CanvasScaler>();
         myGO.AddComponent<GraphicRaycaster>();
-        Debug.Log("myGO.transform = " + myGO.transform);
+        // Debug.Log("myGO.transform = " + myGO.transform);
 
         // Text
         myText = new GameObject();
         myText.transform.parent = myGO.transform;
         myText.name = "TotalCoins";
-        Debug.Log("mytext.transform = " + myText.transform);
+        // Debug.Log("mytext.transform = " + myText.transform);
 
         tc_text = myText.AddComponent<Text>();
         tc_text.font = (Font)Resources.Load("Anton");
         tc_text.text = "Total Coins:  " + _totalCoins;
         tc_text.fontSize = 30;
-        Debug.Log("tc_text.text = " + tc_text.text);
+        // Debug.Log("tc_text.text = " + tc_text.text);
 
         // Text position
         rectTransform = tc_text.GetComponent<RectTransform>();
@@ -84,17 +100,35 @@ public class LevelController : MonoBehaviour
         myText = new GameObject();
         myText.transform.parent = myGO.transform;
         myText.name = "CurrentCoins";
-        Debug.Log("mytext.transform = " + myText.transform);
+        // Debug.Log("mytext.transform = " + myText.transform);
 
         cc_text = myText.AddComponent<Text>();
         cc_text.font = (Font)Resources.Load("Anton");
         cc_text.text = "Current Coins:  " + ((int)((float)_centiCoinsThisLevel / 100.0));
         cc_text.fontSize = 30;
-        Debug.Log("text.text = " + cc_text.text);
+        // Debug.Log("text.text = " + cc_text.text);
 
         // Text position
         rectTransform = cc_text.GetComponent<RectTransform>();
         rectTransform.localPosition = new Vector3(19.3f, -9.4f, 0);
+        rectTransform.sizeDelta = new Vector2(400, 200);
+        rectTransform.localScale = new Vector3(0.02f, 0.02f, 0.02f);
+
+        // Glitch Text
+        myText = new GameObject();
+        myText.transform.parent = myGO.transform;
+        myText.name = "GlitchAdvisement";
+        // Debug.Log("mytext.transform = " + myText.transform);
+
+        glitch_text = myText.AddComponent<Text>();
+        glitch_text.font = (Font)Resources.Load("Anton");
+        glitch_text.text = "Glitch Detected";
+        glitch_text.fontSize = 30;
+        glitch_text.color = Color.gray;
+
+        // Text position
+        rectTransform = glitch_text.GetComponent<RectTransform>();
+        rectTransform.localPosition = new Vector3(19.3f, -7.0f, 0);
         rectTransform.sizeDelta = new Vector2(400, 200);
         rectTransform.localScale = new Vector3(0.02f, 0.02f, 0.02f);
 
@@ -107,6 +141,10 @@ public class LevelController : MonoBehaviour
         string nextLevelName = "Level" + _nextLevelIndex;
         SceneManager.LoadScene(nextLevelName);
         Debug.Log("Loaded scene " + nextLevelName);
+        if (_nextLevelIndex == _maxLevel)
+        {
+            GetComponent<SpriteRenderer>().color = Color.gray;
+        }
     }
 
     // Start is called before the first frame update
@@ -119,13 +157,19 @@ public class LevelController : MonoBehaviour
     void Update()
     {
         LightBulb _lb = FindObjectOfType<LightBulb>();
-        if (_lb.Switched())
+        if (_lb.Switched() || _lb.Glitched())
         {
+            // Debug.Log(" in update LC, switched = " + _lb.Switched() + " glitched = " + _lb.Glitched());
+
             if (!_scoreAdded)
             {
                 _totalCoins += (int)((float)_centiCoinsThisLevel / 100.0);
                 tc_text.text = "Total Coins:  " + _totalCoins;
-                _scoreAdded = true;            
+                _scoreAdded = true;  
+                if (_lb.Glitched())
+                {
+                    glitch_text.color = Color.white;
+                }
             }
         } else
         {
