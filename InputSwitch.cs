@@ -3,7 +3,7 @@
 public class InputSwitch : MonoBehaviour
 {
     // private string spriteNames = "switch down"; 
-    private bool switch_value;
+    [SerializeField] private bool switch_value;
     private Sprite mysprite;
 
  
@@ -19,7 +19,7 @@ public class InputSwitch : MonoBehaviour
         // GameObject _mygo = this.gameObject;
         // Debug.Log("_mygo name = " + _mygo.name);
         LightBulb _lb = FindObjectOfType<LightBulb>();
-        _lb.SetStartingValue();
+        _lb.SetStartingValues();
     }
 
     private void OnMouseDown()

@@ -2,8 +2,7 @@
 
 public class NandGate : MonoBehaviour
 {
-    LineRenderer l_renderer;
-    bool _a, _b, _out;
+    [SerializeField] bool _a, _b, _out;
 
     // Start is called before the first frame update
     void Start()

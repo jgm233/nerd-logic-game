@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
+
 public class LevelController : MonoBehaviour
 {
     // String describing login in each level
@@ -12,7 +13,7 @@ public class LevelController : MonoBehaviour
     // scene manager (for now).  I might add code to instantiate each
     // component and draw the wires at a later time.
     private string[] _logic_in_level =
-    {"dummy string for index0",
+    {    "dummy string for index0",
          "InputSwitch1 switch_value AndGate1 a " +
             "InputSwitch2 switch_value AndGate1 b " +
             "AndGate1 _out LightBulb input",
@@ -29,13 +30,21 @@ public class LevelController : MonoBehaviour
             "NandGate1 _out LightBulb input",
          "InputSwitch1 _out AndGate1 a " +
             "InputSwitch1 _out Inverter1 a " +
-            "Inverter1 _out AndGate1 b " +            
+            "Inverter1 _out AndGate1 b " +
+            "AndGate1 _out LightBulb input",
+         "InputSwitch1 _out FF1 ck " +
+            "InputSwitch1 _out FF2 ck " +
+            "InputSwitch2 _out FF1 d " +
+            "FF1 q Inverter1 a " +
+            "Inverter1 _out AndGate1 a " +
+            "FF1 q FF2 d " +
+            "FF2 q AndGate1 b " +
             "AndGate1 _out LightBulb input"
     };
 
   
     private static int _nextLevelIndex = 0;
-    private const int _maxLevel = 4;
+    private const int _maxLevel = 5;
     private int _clock_period = 0;
     private static int _totalCoins = 0;
     private int _centiCoinsThisLevel = 10000;
@@ -54,6 +63,7 @@ public class LevelController : MonoBehaviour
 
     public string[] GetThisLevelsComponents()
     {
+        // Debug.Log("logic string for level " + _nextLevelIndex);
         //Debug.Log("logic string for level " + _nextLevelIndex + " " + _logic_in_level[_nextLevelIndex]);
         return (_logic_in_level[_nextLevelIndex].Split(' '));
     }
@@ -159,14 +169,11 @@ public class LevelController : MonoBehaviour
     public void OnMouseDown()
     {
         if (_nextLevelIndex >= _maxLevel) return;
+        Debug.Log("LC mouse down _nextLevelIndex == " + _nextLevelIndex);
         _nextLevelIndex++;
         string nextLevelName = "Level" + _nextLevelIndex;
         SceneManager.LoadScene(nextLevelName);
         Debug.Log("Loaded scene " + nextLevelName);
-        if (_nextLevelIndex == _maxLevel)
-        {
-            GetComponent<SpriteRenderer>().color = Color.gray;
-        }
     }
 
     // Start is called before the first frame update
@@ -183,7 +190,7 @@ public class LevelController : MonoBehaviour
 
 
             LightBulb _lb = FindObjectOfType<LightBulb>();
-
+            if (!_lb) return;
             if (_lb.Switched() || _lb.Glitched())
             {
                 // Debug.Log(" in update LC, switched = " + _lb.Switched() + " glitched = " + _lb.Glitched());

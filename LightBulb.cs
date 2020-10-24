@@ -2,17 +2,17 @@
 
 public class LightBulb : MonoBehaviour
 {
-    private bool _input_value = false;
+    [SerializeField] private bool _input_value = false;
     private Sprite _mysprite;
-    private bool _starting_value;
-    private bool _switched = false;
-    private int _clock_last_switched = 0;
-    private bool _glitched = false;
-    private bool _last_value = false;
+    [SerializeField] private bool _starting_value;
+    [SerializeField] private bool _switched = false;
+    [SerializeField] private int _clock_last_switched = 0;
+    [SerializeField] private bool _glitched = false;
+    [SerializeField] private bool _last_value = false;
 
     //This has to be done after the switches
     // have all evaluated the first time
-    public void SetStartingValue()
+    public void SetStartingValues()
     {
         _starting_value = _input_value;
         _last_value = _input_value;

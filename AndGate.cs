@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AndGate : MonoBehaviour
 {
-    bool _a, _b, _out;
+    [SerializeField] bool _a, _b, _out;
 
     // Start is called before the first frame update
     void Start()

@@ -2,7 +2,7 @@
 
 public class Inverter : MonoBehaviour
 {
-    bool _a, _out;
+    [SerializeField] bool _a, _out;
  
     private void EvaluateGate()
     {
