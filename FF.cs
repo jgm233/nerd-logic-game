@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class FF : MonoBehaviour
 {
     [SerializeField] private bool _ck, _d, _previous_d; 
     [SerializeField] private bool _q = false;
     [SerializeField] private static bool _use_previous_d = false;
-
+    
     private void EvaluateGate()
     {
         if (_use_previous_d)
