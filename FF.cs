@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class FF : MonoBehaviour
@@ -6,7 +7,39 @@ public class FF : MonoBehaviour
     [SerializeField] private bool _ck, _d, _previous_d; 
     [SerializeField] private bool _q = false;
     [SerializeField] private static bool _use_previous_d = false;
-    
+    private bool _show_output_value = false;
+
+    public void OnMouseDown()
+    {
+        _show_output_value = !_show_output_value;
+    }
+
+    public void Update()
+    {
+        LineRenderer _lr = GetComponent<LineRenderer>();
+        if (_show_output_value)
+        {
+            if (_q)
+            {
+                _lr.startColor = Color.green;
+                _lr.endColor = Color.green;
+            }
+            else
+            {
+                _lr.startColor = Color.red;
+                _lr.endColor = Color.red;
+
+            }
+        } else
+        {
+            _lr.startColor = Color.black;
+            _lr.endColor = Color.black;
+        }
+
+
+    }
+
+
     private void EvaluateGate()
     {
         if (_use_previous_d)

@@ -4,17 +4,35 @@ using UnityEngine;
 public class OrGate : MonoBehaviour
 {
     [SerializeField] bool _a, _b, _out;
+    private bool _show_output_value = false;
 
-    // Start is called before the first frame update
-    void Start()
+    public void OnMouseDown()
     {
-        // Debug.Log("In and gate start");
+        _show_output_value = !_show_output_value;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
+        LineRenderer _lr = GetComponent<LineRenderer>();
+        if (_show_output_value)
+        {
+            if (_out)
+            {
+                _lr.startColor = Color.green;
+                _lr.endColor = Color.green;
+            }
+            else
+            {
+                _lr.startColor = Color.red;
+                _lr.endColor = Color.red;
 
+            }
+        }
+        else
+        {
+            _lr.startColor = Color.black;
+            _lr.endColor = Color.black;
+        }
     }
 
     private void EvaluateGate()

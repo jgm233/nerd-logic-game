@@ -6,8 +6,8 @@ public class InputSwitch : MonoBehaviour
     [SerializeField] private bool switch_value;
     private Sprite mysprite;
 
- 
-    private void Start ()
+
+    private void Start()
     {
         switch_value = true;
         //GetComponent<SpriteRenderer>().color = Color.green;
@@ -25,12 +25,14 @@ public class InputSwitch : MonoBehaviour
     private void OnMouseDown()
     {
         GetComponent<SpriteRenderer>().color = Color.green;
-        switch_value = !switch_value;           
+        switch_value = !switch_value;
         // Debug.Log("in switch mouse down value is now " + switch_value);
-        if (switch_value == false) { 
+        if (switch_value == false)
+        {
             mysprite = Resources.Load<Sprite>("Switch down");
             GetComponent<SpriteRenderer>().sprite = mysprite;
-        } else
+        }
+        else
         {
             mysprite = Resources.Load<Sprite>("Switch up");
             GetComponent<SpriteRenderer>().sprite = mysprite;
@@ -60,5 +62,19 @@ public class InputSwitch : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.white;
     }
 
+    public void Update()
+    {
+        LineRenderer _lr = GetComponent<LineRenderer>();
+        if (switch_value)
+        {
+            _lr.startColor = Color.green;
+            _lr.endColor = Color.green;
+        }
+        else
+        {
+            _lr.startColor = Color.red;
+            _lr.endColor = Color.red;
+        }
 
+    }
 }

@@ -3,8 +3,38 @@
 public class Inverter : MonoBehaviour
 {
     [SerializeField] bool _a, _out;
- 
-    private void EvaluateGate()
+    private bool _show_output_value = false;
+
+    public void OnMouseDown()
+    {
+        _show_output_value = !_show_output_value;
+    }
+
+    public void Update()
+    {
+        LineRenderer _lr = GetComponent<LineRenderer>();
+        if (_show_output_value)
+        {
+            if (_out)
+            {
+                _lr.startColor = Color.green;
+                _lr.endColor = Color.green;
+            }
+            else
+            {
+                _lr.startColor = Color.red;
+                _lr.endColor = Color.red;
+
+            }
+        }
+        else
+        {
+            _lr.startColor = Color.black;
+            _lr.endColor = Color.black;
+        }
+    }
+
+        private void EvaluateGate()
     {
         _out = !_a;
         LevelController _levelController = FindObjectOfType<LevelController>();
