@@ -63,7 +63,7 @@ public class LevelController : MonoBehaviour
     };
 
   
-    private static int _nextLevelIndex = 6;
+    private static int _level = 0;
     private const int _maxLevel = 6;
     private int _clock_period = 0;
     private static int _totalCoins = 0;
@@ -83,9 +83,9 @@ public class LevelController : MonoBehaviour
 
     public string[] GetThisLevelsComponents()
     {
-        // Debug.Log("logic string for level " + _nextLevelIndex);
-        //Debug.Log("logic string for level " + _nextLevelIndex + " " + _logic_in_level[_nextLevelIndex]);
-        return (_logic_in_level[_nextLevelIndex].Split(' '));
+        // Debug.Log("logic string for level " + _level);
+        //Debug.Log("logic string for level " + _level + " " + _logic_in_level[_level]);
+        return (_logic_in_level[_level].Split(' '));
     }
 
     void Start()
@@ -108,7 +108,7 @@ public class LevelController : MonoBehaviour
         myGO.AddComponent<GraphicRaycaster>();
         // Debug.Log("myGO.transform = " + myGO.transform);
 
-        if (_nextLevelIndex != 0)
+        if (_level != 0)
         {
             // Text
             myText = new GameObject();
@@ -170,7 +170,7 @@ public class LevelController : MonoBehaviour
             myText = new GameObject();
             myText.transform.parent = myGO.transform;
             myText.name = "IntroText";
-            // Debug.Log("mytext.transform = " + myText.transform);
+            Debug.Log("Intro mytext.transform = " + myText.transform);
 
             intro_text = myText.AddComponent<Text>();
             intro_text.font = (Font)Resources.Load("Anton");
@@ -188,10 +188,10 @@ public class LevelController : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (_nextLevelIndex >= _maxLevel) return;
-        Debug.Log("LC mouse down _nextLevelIndex == " + _nextLevelIndex);
-        _nextLevelIndex++;
-        string nextLevelName = "Level" + _nextLevelIndex;
+        if (_level >= _maxLevel) return;
+        Debug.Log("LC mouse down _level == " + _level);
+        _level++;
+        string nextLevelName = "Level" + _level;
         SceneManager.LoadScene(nextLevelName);
         Debug.Log("Loaded scene " + nextLevelName);
     }
@@ -199,13 +199,13 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        // Debug.Log("_logic_in_level["+ _nextLevelIndex + "] = "+ _logic_in_level[_nextLevelIndex]);
+        // Debug.Log("_logic_in_level["+ _level + "] = "+ _logic_in_level[_level]);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_nextLevelIndex != 0)
+        if (_level != 0)
         {
 
 
