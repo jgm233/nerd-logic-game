@@ -12,8 +12,9 @@ public class LightBulb : MonoBehaviour
 
     //This has to be done after the switches
     // have all evaluated the first time
-    public void SetStartingValues()
+    public void Start()
     {
+        //Debug.Log("in LB Start");
         _starting_value = _input_value;
         _last_value = _input_value;
         _switched = false;

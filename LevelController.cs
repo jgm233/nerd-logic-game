@@ -69,7 +69,7 @@ public class LevelController : MonoBehaviour
     private static int _totalCoins = 0;
     private int _centiCoinsThisLevel = 10000;
     private Text tc_text, cc_text, glitch_text, intro_text;
-    private bool _scoreAdded = false;
+    private bool _scoreAdded = true;
 
     public void AdvanceClock()
     {
@@ -90,6 +90,10 @@ public class LevelController : MonoBehaviour
 
     void Start()
     {
+        // Debug.Log("in LC start");
+        _scoreAdded = false;
+
+
         GameObject myGO;
         GameObject myText;
         Canvas myCanvas;
@@ -188,12 +192,13 @@ public class LevelController : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (_level >= _maxLevel) return;
-        // Debug.Log("LC mouse down _level == " + _level);
+        _scoreAdded = true;
+        if(_level >= _maxLevel) return;
         _level++;
+        //Debug.Log("LC mouse down _level == " + _level + " total coins = " + _totalCoins);
         string nextLevelName = "Level" + _level;
         SceneManager.LoadScene(nextLevelName);
-        // Debug.Log("Loaded scene " + nextLevelName);
+        //Debug.Log("Loaded scene " + nextLevelName + " total coins = " + _totalCoins);
     }
 
     // Start is called before the first frame update
@@ -231,8 +236,6 @@ public class LevelController : MonoBehaviour
                 if (_centiCoinsThisLevel > 0) _centiCoinsThisLevel--;
             }
             cc_text.text = "Current Coins:  " + (int)((float)_centiCoinsThisLevel / 100.0);
-
         }
     }
-
 }

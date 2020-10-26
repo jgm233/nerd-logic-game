@@ -84,10 +84,10 @@ public class FF : MonoBehaviour
 
     public void InputChanged_ck(bool input_value)
     {
-        Debug.Log("In " + this.name + " InputChanged_ck, input_value = " + input_value);
-        Debug.Log("In " + this.name + " InputChanged_ck, _d = " + _d);
-        Debug.Log("In " + this.name + " InputChanged_ck, _previous_d = " + _previous_d);
-        Debug.Log("In " + this.name + " InputChanged_ck, _use_previous_d = " + _use_previous_d);
+        //Debug.Log("In " + this.name + " InputChanged_ck, input_value = " + input_value);
+        //Debug.Log("In " + this.name + " InputChanged_ck, _d = " + _d);
+        //Debug.Log("In " + this.name + " InputChanged_ck, _previous_d = " + _previous_d);
+        //Debug.Log("In " + this.name + " InputChanged_ck, _use_previous_d = " + _use_previous_d);
         if (!_ck && input_value)
         {
             EvaluateGate();

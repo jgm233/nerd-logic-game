@@ -12,14 +12,14 @@ public class InputSwitch : MonoBehaviour
         switch_value = true;
         //GetComponent<SpriteRenderer>().color = Color.green;
         // Debug.Log("In '" + this.name + "' start, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
-        // Debug.Log("In switch start");
+        //Debug.Log("In switch start");
         // Force evaluation of the starting state
         OnMouseDown();
         OnMouseUp();
         // GameObject _mygo = this.gameObject;
         // Debug.Log("_mygo name = " + _mygo.name);
-        LightBulb _lb = FindObjectOfType<LightBulb>();
-        _lb.SetStartingValues();
+//        LightBulb _lb = FindObjectOfType<LightBulb>();
+ //       _lb.SetStartingValues();
     }
 
     private void OnMouseDown()

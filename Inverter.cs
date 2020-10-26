@@ -60,7 +60,7 @@ public class Inverter : MonoBehaviour
 
     public void InputChanged_a(bool input_value)
     {
-        Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
+        // Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
         _a = input_value;
         EvaluateGate();
     }
