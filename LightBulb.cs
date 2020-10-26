@@ -43,9 +43,9 @@ public class LightBulb : MonoBehaviour
         int clock_period = _lc.GetClockPeriod();
         if (clock_period == _clock_last_switched && !_glitched)
            _glitched = (_last_value != _input_value);
-        Debug.Log("In " + this.name + " InputChanged, input_value = " + _input_value + ", clock = " + _lc.GetClockPeriod());
-        Debug.Log("In " + this.name + " InputChanged, last_value = " + _last_value + " glitched = " + _glitched);
-        Debug.Log("In " + this.name + " InputChanged, clock_last_switched = " + _clock_last_switched);
+        // Debug.Log("In " + this.name + " InputChanged, input_value = " + _input_value + ", clock = " + _lc.GetClockPeriod());
+        // Debug.Log("In " + this.name + " InputChanged, last_value = " + _last_value + " glitched = " + _glitched);
+        // Debug.Log("In " + this.name + " InputChanged, clock_last_switched = " + _clock_last_switched);
         if (_input_value == false)
         {
             _mysprite = Resources.Load<Sprite>("Light bulb off transparent");
@@ -58,6 +58,6 @@ public class LightBulb : MonoBehaviour
         }
         _last_value = _input_value;
         _clock_last_switched = clock_period;
-        Debug.Log("In lightbulb, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
+        // Debug.Log("In lightbulb, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
     }
 }

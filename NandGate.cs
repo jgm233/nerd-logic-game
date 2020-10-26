@@ -12,6 +12,7 @@ public class NandGate : MonoBehaviour
 
     public void Update()
     {
+        EvaluateGate();
         LineRenderer _lr = GetComponent<LineRenderer>();
         if (_show_output_value)
         {
@@ -54,8 +55,11 @@ public class NandGate : MonoBehaviour
                 {
                     // Debug.Log("matched name:  " + this.name);
                     GameObject _destination = GameObject.Find(_logic_components[i + 2]);
-                    _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
+                    if (_destination)
+                    {
+                        _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
                                              _out);
+                    }
                 }
                 else
                 {

@@ -13,6 +13,7 @@ public class OrGate : MonoBehaviour
 
     public void Update()
     {
+        EvaluateGate();
         LineRenderer _lr = GetComponent<LineRenderer>();
         if (_show_output_value)
         {
@@ -54,8 +55,12 @@ public class OrGate : MonoBehaviour
                 {
                     // Debug.Log("matched name:  " + this.name);
                     GameObject _destination = GameObject.Find(_logic_components[i + 2]);
-                    _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
+                    if (_destination)
+                    {
+                        _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
                                              _out);
+                    }
+
                 }
                 else
                 {
@@ -71,14 +76,14 @@ public class OrGate : MonoBehaviour
 
     public void InputChanged_a(bool input_value)
     {
-        Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
+        // Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
         _a = input_value;
         EvaluateGate();
     }
 
     public void InputChanged_b(bool input_value)
     {
-        Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
+        // Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
         _b = input_value;
         EvaluateGate();
     }

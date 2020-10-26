@@ -65,6 +65,7 @@ public class InputSwitch : MonoBehaviour
     public void Update()
     {
         LineRenderer _lr = GetComponent<LineRenderer>();
+        GlobalHelp _gh = GetComponentInParent<GlobalHelp>();
         if (switch_value)
         {
             _lr.startColor = Color.green;

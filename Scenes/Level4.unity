@@ -266,8 +266,10 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
+  - {x: 4.57, y: -3.0885828, z: 0.041015625}
   - {x: 5.32, y: -3.0885828, z: 0.041015625}
   - {x: 5.32, y: -1.94, z: 0.041015625}
+  - {x: 6.13, y: -1.94, z: 0.041015625}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -377,7 +379,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c975f3328a6ed43499e0eeea46e8c0c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 70b5dd44939264244881c35810cb4a51, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -636,7 +638,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9ec96f57aac7ef54d88bc7d5d7a57a6c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c3e987d460a57e544a99110ce0603dd9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -702,7 +704,7 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 8.7, y: -1.62, z: 0}
+  - {x: 7.99, y: -1.62, z: 0}
   - {x: 14.1, y: -1.63, z: 0}
   - {x: 14.1, y: -1.2, z: 0}
   m_Parameters:
@@ -1087,9 +1089,10 @@ LineRenderer:
   - {x: 0.7, y: 2.1, z: 0}
   - {x: 2, y: 2.1, z: 0}
   - {x: 2, y: -1.25, z: 0}
-  - {x: 5.5, y: -1.25, z: 0}
+  - {x: 6.04, y: -1.25, z: 0}
   - {x: 2, y: -1.25, z: 0}
   - {x: 2, y: -3.145, z: 0}
+  - {x: 2.8, y: -3.145, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

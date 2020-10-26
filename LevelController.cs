@@ -189,11 +189,11 @@ public class LevelController : MonoBehaviour
     public void OnMouseDown()
     {
         if (_level >= _maxLevel) return;
-        Debug.Log("LC mouse down _level == " + _level);
+        // Debug.Log("LC mouse down _level == " + _level);
         _level++;
         string nextLevelName = "Level" + _level;
         SceneManager.LoadScene(nextLevelName);
-        Debug.Log("Loaded scene " + nextLevelName);
+        // Debug.Log("Loaded scene " + nextLevelName);
     }
 
     // Start is called before the first frame update
