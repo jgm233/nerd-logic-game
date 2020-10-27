@@ -72,8 +72,8 @@ public abstract class BasicGate : MonoBehaviour
     }
 
 
-    public virtual void InputChanged_ck(bool input_value) { }
-    public virtual void InputChanged_d(bool input_value) { }
+   // public virtual void InputChanged_ck(bool input_value) { }
+   // public virtual void InputChanged_d(bool input_value) { }
 
     public void InputChanged_a(bool input_value)
     {
