@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class NandGate : MonoBehaviour
+public abstract class BasicGate : MonoBehaviour
 {
-    [SerializeField] bool _a, _b, _out;
-    private bool _show_output_value = false;
+    [SerializeField] protected bool _a, _b, _out;
+    protected bool _show_output_value = false;
 
     public void OnMouseDown()
     {
@@ -35,10 +35,10 @@ public class NandGate : MonoBehaviour
         }
     }
 
-    private void EvaluateGate()
+    public abstract void EvaluateGate();
+
+    protected void PropagateOutput()
     {
-        _out = !(_a & _b);
-        // LevelController _levelController = GetComponent<LevelController>();
         LevelController _levelController = FindObjectOfType<LevelController>();
 
         if (_levelController == null)
@@ -48,12 +48,12 @@ public class NandGate : MonoBehaviour
         else
         {
             string[] _logic_components = _levelController.GetThisLevelsComponents();
-            // Debug.Log("in evaluate gate for " + this.name);
+            //Debug.Log("in propagate outputs for " + this.name);
             for (int i = 0; i < _logic_components.Length; i += 4)
             {
                 if (_logic_components[i] == this.name)
                 {
-                    // Debug.Log("matched name:  " + this.name);
+                    // Debug.Log("     matched name:  " + this.name);
                     GameObject _destination = GameObject.Find(_logic_components[i + 2]);
                     if (_destination)
                     {
@@ -71,7 +71,9 @@ public class NandGate : MonoBehaviour
         //        _lightbulb.SendMessage("InputChanged_input", _out);
     }
 
-    // New comment
+
+    public virtual void InputChanged_ck(bool input_value) { }
+    public virtual void InputChanged_d(bool input_value) { }
 
     public void InputChanged_a(bool input_value)
     {
@@ -86,4 +88,18 @@ public class NandGate : MonoBehaviour
         _b = input_value;
         EvaluateGate();
     }
+
+}
+
+
+public class NandGate : BasicGate
+{
+
+    public override void EvaluateGate()
+    {
+        _out = !(_a & _b);
+        Debug.Log("In " + this.name + " EvaluateGate out =  " + _out);
+        PropagateOutput();
+    }
+
 }

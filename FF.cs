@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class FF : MonoBehaviour
 {
     [SerializeField] private bool _ck, _d, _previous_d; 
-    [SerializeField] private bool _q = false;
+    [SerializeField] private bool _out = false;
     [SerializeField] private static bool _use_previous_d = false;
     private bool _show_output_value = false;
 
@@ -19,7 +19,7 @@ public class FF : MonoBehaviour
         LineRenderer _lr = GetComponent<LineRenderer>();
         if (_show_output_value)
         {
-            if (_q)
+            if (_out)
             {
                 _lr.startColor = Color.green;
                 _lr.endColor = Color.green;
@@ -44,10 +44,10 @@ public class FF : MonoBehaviour
     {
         if (_use_previous_d)
         {
-            _q = _previous_d;
+            _out = _previous_d;
         } else
         {
-            _q = _d;
+            _out = _d;
         }
 
         // LevelController _levelController = GetComponent<LevelController>();
@@ -68,7 +68,7 @@ public class FF : MonoBehaviour
                     // Debug.Log("matched name:  " + this.name);
                     GameObject _destination = GameObject.Find(_logic_components[i + 2]);
                     _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
-                                             _q);
+                                             _out);
                 }
                 else
                 {
