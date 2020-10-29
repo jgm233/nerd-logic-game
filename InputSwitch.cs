@@ -68,16 +68,23 @@ public class InputSwitch : MonoBehaviour
         _lr.startWidth = 0.1f;
         _lr.endWidth = 0.1f;
         _lr.widthMultiplier = 0.1f;
-        //GlobalHelp _gh = GetComponentInParent<GlobalHelp>();
-        if (switch_value)
+        GlobalHelp _gh = FindObjectOfType<GlobalHelp>();
+        if (_gh.IsGlobalHelpOn())
         {
-            _lr.startColor = Color.green;
-            _lr.endColor = Color.green;
-        }
-        else
+            if (switch_value)
+            {
+                _lr.startColor = Color.green;
+                _lr.endColor = Color.green;
+            } else
+            {
+                _lr.startColor = Color.red;
+                _lr.endColor = Color.red;
+            }
+        } else
         {
-            _lr.startColor = Color.red;
-            _lr.endColor = Color.red;
+            _lr.startColor = Color.black;
+            _lr.endColor = Color.black;
+
         }
 
     }

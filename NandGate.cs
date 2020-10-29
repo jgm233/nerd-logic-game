@@ -17,7 +17,8 @@ public abstract class BasicGate : MonoBehaviour
         _lr.startWidth = 0.1f;
         _lr.endWidth = 0.1f;
         _lr.widthMultiplier = 0.1f;
-        if (_show_output_value)
+        GlobalHelp _gh = FindObjectOfType<GlobalHelp>();
+        if (_gh.IsGlobalHelpOn() || _show_output_value)
         {
             if (_out)
             {
