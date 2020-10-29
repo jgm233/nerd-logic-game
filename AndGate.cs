@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class AndGate : BasicGate
 {
+    void Start()
+    {
+        EvaluateGate();
+    }
+
     public override void EvaluateGate()
     {
         _out = (_a & _b);

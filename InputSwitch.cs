@@ -13,7 +13,7 @@ public class InputSwitch : MonoBehaviour
         //GetComponent<SpriteRenderer>().color = Color.green;
         // Debug.Log("In '" + this.name + "' start, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
         //Debug.Log("In switch start");
-        // Force evaluation of the starting state
+        // Force evaluation of the starting state and change switch_value to false in the process.
         OnMouseDown();
         OnMouseUp();
         // GameObject _mygo = this.gameObject;
@@ -65,7 +65,10 @@ public class InputSwitch : MonoBehaviour
     public void Update()
     {
         LineRenderer _lr = GetComponent<LineRenderer>();
-        GlobalHelp _gh = GetComponentInParent<GlobalHelp>();
+        _lr.startWidth = 0.1f;
+        _lr.endWidth = 0.1f;
+        _lr.widthMultiplier = 0.1f;
+        //GlobalHelp _gh = GetComponentInParent<GlobalHelp>();
         if (switch_value)
         {
             _lr.startColor = Color.green;

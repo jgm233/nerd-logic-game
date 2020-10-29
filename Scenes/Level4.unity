@@ -266,10 +266,10 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 4.57, y: -3.0885828, z: 0.041015625}
-  - {x: 5.32, y: -3.0885828, z: 0.041015625}
-  - {x: 5.32, y: -1.94, z: 0.041015625}
-  - {x: 6.13, y: -1.94, z: 0.041015625}
+  - {x: 4.57, y: -3.0885828, z: 0}
+  - {x: 5.32, y: -3.0885828, z: 0}
+  - {x: 5.32, y: -1.94, z: 0}
+  - {x: 6.13, y: -1.94, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _a: 0
+  _b: 0
   _out: 0
 --- !u!212 &141812158
 SpriteRenderer:

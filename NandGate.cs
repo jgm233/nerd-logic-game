@@ -12,8 +12,11 @@ public abstract class BasicGate : MonoBehaviour
 
     public void Update()
     {
-        EvaluateGate();
+        // EvaluateGate();
         LineRenderer _lr = GetComponent<LineRenderer>();
+        _lr.startWidth = 0.1f;
+        _lr.endWidth = 0.1f;
+        _lr.widthMultiplier = 0.1f;
         if (_show_output_value)
         {
             if (_out)
@@ -94,11 +97,15 @@ public abstract class BasicGate : MonoBehaviour
 
 public class NandGate : BasicGate
 {
+    void Start()
+    {
+        EvaluateGate();
+    }
 
     public override void EvaluateGate()
     {
         _out = !(_a & _b);
-        Debug.Log("In " + this.name + " EvaluateGate out =  " + _out);
+        // Debug.Log("In " + this.name + " EvaluateGate out =  " + _out);
         PropagateOutput();
     }
 

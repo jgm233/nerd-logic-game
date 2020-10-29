@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class Inverter : BasicGate
 {
+    void Start()
+    {
+        EvaluateGate();
+    }
+
     public override void EvaluateGate()
     {
         _out = !_a;
