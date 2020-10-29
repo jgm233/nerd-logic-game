@@ -168,7 +168,7 @@ public class LevelController : MonoBehaviour
             rectTransform.sizeDelta = new Vector2(400, 200);
             rectTransform.localScale = new Vector3(0.02f, 0.02f, 0.02f);
         }
-        else
+        else if (_level == 1)
         {
             // Intro Text
             myText = new GameObject();
@@ -179,6 +179,26 @@ public class LevelController : MonoBehaviour
             intro_text = myText.AddComponent<Text>();
             intro_text.font = (Font)Resources.Load("Anton");
             intro_text.text = "This is a digital logic game.  Move the switches on the left up and\ndown to activate the logic and change the state of the light bulb.\nSome levels generate glitches.  The coin counter runs until the\nlight bulb is switched or glitched, and then the current coins is\nadded to your total coins.  Earn coins to buy fabulous prizes\nand additions to the game.\n\nJohn\njgm23333@gmail.com";
+            intro_text.fontSize = 36;
+
+            // Text position
+            rectTransform = intro_text.GetComponent<RectTransform>();
+            rectTransform.localPosition = new Vector3(8.0f, -6.8f, 0);
+            rectTransform.sizeDelta = new Vector2(1000, 1000);
+            rectTransform.localScale = new Vector3(0.02f, 0.02f, 0.02f);
+
+        }
+        else if (_level == 2)
+        {
+            // Intro Text
+            myText = new GameObject();
+            myText.transform.parent = myGO.transform;
+            myText.name = "Help Text";
+            Debug.Log("Intro mytext.transform = " + myText.transform);
+
+            intro_text = myText.AddComponent<Text>();
+            intro_text.font = (Font)Resources.Load("Anton");
+            intro_text.text = "Clicking on a gate highlights the outputs with green = 1, and red = 0.\nClicking on the 'Help' button highlights the outputs of all the gates and switches.";
             intro_text.fontSize = 36;
 
             // Text position
