@@ -2,8 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
-
 public class LevelController : MonoBehaviour
 {
     // String describing login in each level
@@ -14,7 +12,9 @@ public class LevelController : MonoBehaviour
     // component and draw the wires at a later time.
     private string[] _logic_in_level =
     {    "dummy string for index0",
-         "InputSwitch1 switch_value AndGate1 a " +
+            "dummy string for index1",
+           "dummy string for index2",
+        "InputSwitch1 switch_value AndGate1 a " +
             "InputSwitch2 switch_value AndGate1 b " +
             "AndGate1 _out LightBulb input",
          "InputSwitch1 _out AndGate1 a " +
@@ -63,8 +63,8 @@ public class LevelController : MonoBehaviour
     };
 
   
-    private static int _level = 0;
-    private const int _maxLevel = 6;
+    private static int _level = 1;
+    private const int _maxLevel = 8;
     private int _clock_period = 0;
     private static int _totalCoins = 0;
     private int _centiCoinsThisLevel = 10000;
@@ -112,7 +112,7 @@ public class LevelController : MonoBehaviour
         myGO.AddComponent<GraphicRaycaster>();
         // Debug.Log("myGO.transform = " + myGO.transform);
 
-        if (_level != 0)
+        if (_level >= 3)
         {
             // Text
             myText = new GameObject();
@@ -193,7 +193,15 @@ public class LevelController : MonoBehaviour
     public void OnMouseDown()
     {
         _scoreAdded = true;
-        if(_level >= _maxLevel) return;
+        if (_level >= _maxLevel)
+        {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
         _level++;
         //Debug.Log("LC mouse down _level == " + _level + " total coins = " + _totalCoins);
         string nextLevelName = "Level" + _level;
@@ -210,7 +218,7 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_level != 0)
+        if (_level >= 3)
         {
 
 
