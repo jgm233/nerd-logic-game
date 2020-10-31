@@ -32,7 +32,32 @@ public class LevelController : MonoBehaviour
             "InputSwitch1 _out Inverter1 a " +
             "Inverter1 _out AndGate1 b " +
             "AndGate1 _out LightBulb input",
-         "InputSwitch1 _out FF1 ck " +
+         "InputSwitch1 _out Inverter1 a " +
+            "Inverter1 _out NandGate1 a " +
+            "InputSwitch2 _out NandGate1 b " +
+            "InputSwitch3 _out Inverter2 a " +
+            "Inverter2 _out OrGate1 b " +
+            "NandGate1 _out OrGate1 a " +
+            "OrGate1 _out LightBulb input",
+         "InputSwitch1 _out Inverter1 a " +
+            "Inverter1 _out NandGate1 a " +
+            "InputSwitch2 _out NandGate1 b " +
+            "InputSwitch3 _out NandGate2 a " +
+            "InputSwitch4 _out NandGate2 b " +
+            "NandGate1 _out AndGate1 a " +
+            "NandGate2 _out AndGate1 b " +
+            "AndGate1 _out LightBulb input",
+         "InputSwitch1 _out NandGate1 a " +
+            "InputSwitch2 _out NandGate2 b " +
+            "NandGate1 _out NandGate2 a " +
+            "NandGate2 _out NandGate1 b " +
+            "NandGate1 _out LightBulb input",
+         "InputSwitch1 _out NorGate1 a " +
+            "InputSwitch2 _out NorGate2 b " +
+            "NorGate1 _out NorGate2 a " +
+            "NorGate2 _out NorGate1 b " +
+            "NorGate1 _out LightBulb input",
+        "InputSwitch1 _out FF1 ck " +
             "InputSwitch1 _out FF2 ck " +
             "InputSwitch2 _out FF1 d " +
             "FF1 q Inverter1 a " +
@@ -64,7 +89,7 @@ public class LevelController : MonoBehaviour
 
   
     private static int _level = 1;
-    private const int _maxLevel = 8;
+    private const int _maxLevel = 12;
     private int _clock_period = 0;
     private static int _totalCoins = 0;
     private int _centiCoinsThisLevel = 10000;
@@ -90,7 +115,7 @@ public class LevelController : MonoBehaviour
 
     void Start()
     {
-        // Debug.Log("in LC start");
+        Debug.Log("in LC start");
         _scoreAdded = false;
 
 
@@ -217,6 +242,7 @@ public class LevelController : MonoBehaviour
         {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+        return;
 #else
             Application.Quit();
 #endif

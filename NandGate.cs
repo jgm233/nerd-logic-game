@@ -12,7 +12,6 @@ public abstract class BasicGate : MonoBehaviour
 
     public void Update()
     {
-        // EvaluateGate();
         LineRenderer _lr = GetComponent<LineRenderer>();
         _lr.startWidth = 0.1f;
         _lr.endWidth = 0.1f;
@@ -52,12 +51,12 @@ public abstract class BasicGate : MonoBehaviour
         else
         {
             string[] _logic_components = _levelController.GetThisLevelsComponents();
-            //Debug.Log("in propagate outputs for " + this.name);
+            Debug.Log("in propagate outputs for " + this.name);
             for (int i = 0; i < _logic_components.Length; i += 4)
             {
                 if (_logic_components[i] == this.name)
                 {
-                    // Debug.Log("     matched name:  " + this.name);
+                    Debug.Log("     matched name:  " + this.name);
                     GameObject _destination = GameObject.Find(_logic_components[i + 2]);
                     if (_destination)
                     {
@@ -71,8 +70,6 @@ public abstract class BasicGate : MonoBehaviour
                 }
             }
         }
-        //        GameObject _lightbulb = GameObject.Find("LightBulb"); 
-        //        _lightbulb.SendMessage("InputChanged_input", _out);
     }
 
 
@@ -81,14 +78,14 @@ public abstract class BasicGate : MonoBehaviour
 
     public void InputChanged_a(bool input_value)
     {
-        // Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
+        Debug.Log("In " + this.name + " InputChanged_a, input_value = " + input_value);
         _a = input_value;
         EvaluateGate();
     }
 
     public void InputChanged_b(bool input_value)
     {
-        // Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
+        Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
         _b = input_value;
         EvaluateGate();
     }
@@ -100,13 +97,17 @@ public class NandGate : BasicGate
 {
     void Start()
     {
+        Debug.Log("In " + this.name + " start out =  " + _out);
         EvaluateGate();
     }
 
     public override void EvaluateGate()
     {
-        _out = !(_a & _b);
-        // Debug.Log("In " + this.name + " EvaluateGate out =  " + _out);
+        bool new_out = !(_a & _b);
+        Debug.Log("In " + this.name + " EvaluateGate new_out =  " + new_out);
+        if (new_out == _out) return;
+        _out = new_out;
+        Debug.Log("In " + this.name + " EvaluateGate out =  " + _out);
         PropagateOutput();
     }
 
