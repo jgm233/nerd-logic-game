@@ -5,17 +5,13 @@ using UnityEngine;
 
 public class OrGate : BasicGate
 {
-
-    void Start()
-    {
-        EvaluateGate();
-    }
-
-
     public override void EvaluateGate()
     {
-        _out = (_a | _b);
-        // Debug.Log("In " + this.name + " EvaluateGate out =  " + _out);
+        bool new_out = (_a | _b);
+        Debug.Log("In " + this.name + " EvaluateGate new_out =  " + new_out);
+        if (new_out == _out) return;
+        _out = new_out;
+        Debug.Log("In " + this.name + " EvaluateGate out =  " + _out);
         PropagateOutput();
     }
 }

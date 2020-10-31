@@ -5,6 +5,12 @@ public abstract class BasicGate : MonoBehaviour
     [SerializeField] protected bool _a, _b, _out;
     protected bool _show_output_value = false;
 
+    void Start()
+    {
+        Debug.Log("In " + this.name + " start out =  " + _out);
+        EvaluateGate();
+    }
+
     public void OnMouseDown()
     {
         _show_output_value = !_show_output_value;
@@ -95,12 +101,6 @@ public abstract class BasicGate : MonoBehaviour
 
 public class NandGate : BasicGate
 {
-    void Start()
-    {
-        Debug.Log("In " + this.name + " start out =  " + _out);
-        EvaluateGate();
-    }
-
     public override void EvaluateGate()
     {
         bool new_out = !(_a & _b);

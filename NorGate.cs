@@ -2,11 +2,6 @@
 
 public class NorGate : BasicGate
 {
-    void Start()
-    {
-        Debug.Log("In " + this.name + " start out =  " + _out);
-        EvaluateGate();
-    }
 
     public override void EvaluateGate()
     {
