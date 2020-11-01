@@ -187,7 +187,7 @@ LineRenderer:
   - {x: 3.52, y: -3.08, z: 0}
   - {x: 5.32, y: -3.08, z: 0}
   - {x: 5.32, y: -1.9807043, z: 0}
-  - {x: 6.15, y: -1.9807043, z: 0}
+  - {x: 6.02, y: -1.9807043, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -1256,7 +1256,7 @@ LineRenderer:
   - {x: 0.7, y: 2.1, z: 0}
   - {x: 4, y: 2.1, z: 0}
   - {x: 4, y: -1.25, z: 0}
-  - {x: 6.15, y: -1.25, z: 0}
+  - {x: 6.02, y: -1.25, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

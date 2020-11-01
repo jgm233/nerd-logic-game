@@ -40,11 +40,11 @@ public class FF : BasicGate
 
     public void InputChanged_d(bool input_value)
     {
-        //Debug.Log("In " + this.name + " InputChanged_d, input_value = " + input_value);
+        Debug.Log("In " + this.name + " InputChanged_d, input_value = " + input_value);
         _previous_d = _d;
-        //Debug.Log("In " + this.name + " InputChanged_d, _previous_d = " + _previous_d);
+        Debug.Log("In " + this.name + " InputChanged_d, _previous_d = " + _previous_d);
         _d = input_value;
-        //Debug.Log("In " + this.name + " InputChanged_ck, _use_previous_d = " + _previous_d);
+        Debug.Log("In " + this.name + " InputChanged_ck, _use_previous_d = " + _previous_d);
 
     }
 }
