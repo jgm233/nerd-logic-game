@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices;
+using UnityEngine;
 
 public class InputSwitch : MonoBehaviour
 {
@@ -41,12 +42,21 @@ public class InputSwitch : MonoBehaviour
 
         string[] _logic_components = _levelController.GetThisLevelsComponents();
         Debug.Log("in evaluate for " + this.name);
+        bool first_clock = true;
         for (int i = 0; i < _logic_components.Length; i += 4)
         {
             if (_logic_components[i] == this.name)
             {
                 Debug.Log("   matched name:  " + this.name);
                 Debug.Log("   destination name:  " + _logic_components[i + 2] + "/" + _logic_components[i + 3]);
+                // If this is the first FF to be clocked with this switch change, lock the D-inputs for all FFs
+                if (_logic_components[i + 3] == "ck" && first_clock)
+                {
+                    FF[] ffs = FindObjectsOfType<FF>();
+                    foreach (FF myff in ffs)
+                        myff.LockDInput();
+                    first_clock = false;
+                }
                 GameObject _destination = GameObject.Find(_logic_components[i + 2]);
                 _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
                                          switch_value);
