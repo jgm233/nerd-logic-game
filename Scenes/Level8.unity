@@ -1771,10 +1771,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1144716508}
   - component: {fileID: 1144716507}
-  - component: {fileID: 1144716510}
   - component: {fileID: 1144716509}
+  - component: {fileID: 1144716510}
   m_Layer: 0
-  m_Name: LevelController
+  m_Name: Level8Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1880,7 +1880,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1144716506}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ead59c7c1bcce44aa40c39fb743c85, type: 3}
+  m_Script: {fileID: 11500000, guid: 5757bc5791f5089469d2c3fcc467dc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1221939512

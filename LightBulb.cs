@@ -40,7 +40,7 @@ public class LightBulb : MonoBehaviour
         if (_input_value == new_value) return;
         _switched = true;
         _input_value = new_value;
-        LevelController _lc = FindObjectOfType<LevelController>();
+        BaseLevelController _lc = FindObjectOfType<BaseLevelController>();
         int clock_period = _lc.GetClockPeriod();
         if (clock_period == _clock_last_switched && !_glitched)
            _glitched = (_last_value != _input_value);

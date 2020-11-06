@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class FF : BasicGate
 {
     [SerializeField] private bool _ck, _d, _locked_d; 
-    [SerializeField] private static bool _use_previous_d = false;
     
     public override void EvaluateGate()
     {

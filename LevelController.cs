@@ -255,12 +255,6 @@ public class LevelController : MonoBehaviour
         //Debug.Log("Loaded scene " + nextLevelName + " total coins = " + _totalCoins);
     }
 
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        // Debug.Log("_logic_in_level["+ _level + "] = "+ _logic_in_level[_level]);
-    }
-
     // Update is called once per frame
     void Update()
     {

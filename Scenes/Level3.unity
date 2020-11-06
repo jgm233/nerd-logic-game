@@ -924,10 +924,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1034561416}
   - component: {fileID: 1034561415}
-  - component: {fileID: 1034561414}
   - component: {fileID: 1034561417}
+  - component: {fileID: 1034561414}
   m_Layer: 0
-  m_Name: LevelController
+  m_Name: Level3Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -942,7 +942,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1034561413}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ead59c7c1bcce44aa40c39fb743c85, type: 3}
+  m_Script: {fileID: 11500000, guid: fd29ad9be9efb1c4d942aad53d35310a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &1034561415

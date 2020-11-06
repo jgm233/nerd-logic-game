@@ -1,29 +1,31 @@
-﻿using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputSwitch : MonoBehaviour
 {
     // private string spriteNames = "switch down"; 
-    [SerializeField] private bool switch_value;
+    [SerializeField] private bool switch_value = false;
     private Sprite mysprite;
 
 
     private void Start()
     {
-        switch_value = true;
+        Debug.Log("In switch start()"); 
+        // switch_value = false;
+        PropagateOutput();
         //GetComponent<SpriteRenderer>().color = Color.green;
-        Debug.Log("In '" + this.name + "' start, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
-        Debug.Log("In switch start");
+        //Debug.Log("In '" + this.name + "' start, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
+        //Debug.Log("In switch start");
         // Force evaluation of the starting state and change switch_value to false in the process.
-        OnMouseDown();
-        OnMouseUp();
+        // OnMouseDown();
+        // OnMouseUp();
     }
 
+ 
     private void OnMouseDown()
     {
         GetComponent<SpriteRenderer>().color = Color.green;
         switch_value = !switch_value;
-        Debug.Log("in switch mouse down value is now " + switch_value);
+        //Debug.Log("in switch mouse down value is now " + switch_value);
         if (switch_value == false)
         {
             mysprite = Resources.Load<Sprite>("Switch down");
@@ -34,10 +36,16 @@ public class InputSwitch : MonoBehaviour
             mysprite = Resources.Load<Sprite>("Switch up");
             GetComponent<SpriteRenderer>().sprite = mysprite;
         }
-        Debug.Log("In switch mouse down, mysprite = " + 
-                  GetComponent<SpriteRenderer>().sprite.name);
+        //Debug.Log("In switch mouse down, mysprite = " + 
+        //        GetComponent<SpriteRenderer>().sprite.name);
+        PropagateOutput();
+    }
 
-        LevelController _levelController = FindObjectOfType<LevelController>();
+    public void PropagateOutput()
+    {
+
+        BaseLevelController _levelController = FindObjectOfType<BaseLevelController>();
+        Debug.Log("In switch prop output, lc name = " + _levelController.name);
         _levelController.AdvanceClock();
 
         string[] _logic_components = _levelController.GetThisLevelsComponents();
