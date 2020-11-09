@@ -14,6 +14,11 @@ public class OrGate : BasicGate
         // Debug.Log("In " + this.name + " EvaluateGate out =  " + _out);
         PropagateOutput();
     }
+
+    public override float inputa_x_adjust() { return -0.7f; }
+    public override float inputb_x_adjust() { return -0.7f; }
+    public override float output_x_adjust() { return 0.5f; }
+
 }
 
 

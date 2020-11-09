@@ -63,4 +63,8 @@ public class LightBulb : BasicGate
 
     // Clicking on the light bulb doesn't do anything
     public override void OnMouseDown() { }
+
+    public override float inputa_x_adjust() { return 0.0f; }
+    public override float inputa_y_adjust() { return -2.0f; }
+
 }

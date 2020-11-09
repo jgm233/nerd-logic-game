@@ -13,4 +13,8 @@ public class NorGate : BasicGate
         PropagateOutput();
     }
 
+    public override float inputa_x_adjust() { return -0.86f; }
+    public override float inputb_x_adjust() { return -0.82f; }
+    public override float output_x_adjust() { return 0.75f; }
+
 }

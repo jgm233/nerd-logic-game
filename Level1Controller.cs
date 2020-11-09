@@ -2,9 +2,8 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.Security.Principal;
 using System.Collections.Specialized;
-using System.Reflection.Emit;
-using System;
 
 public abstract class BaseLevelController : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public abstract class BaseLevelController : MonoBehaviour
     // component and draw the wires at a later time.
     protected string _logic_in_level = "";
     protected string _parts_list = "";
-    protected static int _level = 1;
+    protected static int _level = 13;
     protected const int _maxLevel = 13;
     [SerializeField] protected int _clock_period = 0;
     protected static int _totalCoins = 0;
@@ -85,6 +84,14 @@ public abstract class BaseLevelController : MonoBehaviour
                     partsGO.AddComponent<AndGate>();
                     mycomp = partsGO.GetComponent<AndGate>();
                     break;
+                case "Inverter":
+                    partsGO.AddComponent<Inverter>();
+                    mycomp = partsGO.GetComponent<Inverter>();
+                    break;
+                case "FF":
+                    partsGO.AddComponent<FF>();
+                    mycomp = partsGO.GetComponent<FF>();
+                    break;
                 case "NorGate":
                     partsGO.AddComponent<NorGate>();
                     mycomp = partsGO.GetComponent<NorGate>();
@@ -125,14 +132,8 @@ public abstract class BaseLevelController : MonoBehaviour
             Debug.Log("       dest = " + mydestination.name);
             Debug.Log("       dest gate = " + mydestination_gate.name);
 
-            mysource.AddComponent<LineRenderer>();
-            LineRenderer mylr = mysource.GetComponent<LineRenderer>();
-            mylr.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
-            mylr.positionCount = 4;
-            float startx_adjust = 1.0f;
-            float starty_adjust = 0.0f;
-            startx_adjust = mysource_gate.output_x_adjust();
-            starty_adjust = mysource_gate.output_y_adjust();
+            float startx_adjust = mysource_gate.output_x_adjust();
+            float starty_adjust = mysource_gate.output_y_adjust();
 
             float startx = mysource.transform.position.x + startx_adjust;
             float starty = mysource.transform.position.y + starty_adjust;
@@ -143,6 +144,9 @@ public abstract class BaseLevelController : MonoBehaviour
                 case "a":
                     endx_adjust = mydestination_gate.inputa_x_adjust();
                     endy_adjust = mydestination_gate.inputa_y_adjust();
+                    Debug.Log("Destination " + logic_components[i + 2] + "/" + logic_components[i + 3]
+                        + " endx adjust = " + endx_adjust
+                        + " endy adjust = " + endy_adjust);
                     break;
                 case "b":
                     endx_adjust = mydestination_gate.inputb_x_adjust();
@@ -159,15 +163,38 @@ public abstract class BaseLevelController : MonoBehaviour
             }
             float endx = mydestination.transform.position.x + endx_adjust;
             float endy = mydestination.transform.position.y + endy_adjust;
-
-            Vector3[] positions = new Vector3[4];
             float middlex = (float)(startx + endx) / 2.0f;
-            positions[0] = new Vector3(startx, starty,0);
-            positions[1] = new Vector3(middlex, starty, 0);
-            positions[2] = new Vector3(middlex, endy, 0);
-            positions[3] = new Vector3(endx, endy,0);
+
+            Vector3[] positions;
+            LineRenderer mylr = mysource.GetComponent<LineRenderer>();
+            if (!mylr)
+            {
+                // Create a new route from the source to the destination
+                Debug.Log("    First segment destination = " + mydestination_gate.name);
+                mysource.AddComponent<LineRenderer>();
+                mylr = mysource.GetComponent<LineRenderer>();
+                positions = new Vector3[4];
+                positions[0] = new Vector3(startx, starty, 0);
+                positions[1] = new Vector3(middlex, starty, 0);
+                positions[2] = new Vector3(middlex, endy, 0);
+                positions[3] = new Vector3(endx, endy, 0);
+                mylr.positionCount = 4;
+            }
+            else
+            {
+                // Adding onto an existing route by backtracing one segment, then adding two more 
+                // segments to the line
+                Debug.Log("    Next segment destination = " + mydestination_gate.name);
+                int old_position_count = mylr.positionCount;
+                positions = new Vector3[old_position_count + 3];
+                mylr.GetPositions(positions);
+                positions[old_position_count] = positions[old_position_count - 2];
+                positions[old_position_count + 1] = new Vector3(positions[old_position_count - 2].x, endy, 0);
+                positions[old_position_count + 2] = new Vector3(endx, endy, 0);
+                mylr.positionCount = old_position_count + 3;
+            }
             mylr.SetPositions(positions);
-            
+            mylr.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
         }
     }
             // Start is called before the first frame update
