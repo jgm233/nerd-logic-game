@@ -15,7 +15,7 @@ public abstract class BaseLevelController : MonoBehaviour
     // component and draw the wires at a later time.
     protected string _logic_in_level = "";
     protected string _parts_list = "";
-    protected static int _level = 13;
+    protected static int _level = 1;
     protected const int _maxLevel = 13;
     [SerializeField] protected int _clock_period = 0;
     protected static int _totalCoins = 0;
