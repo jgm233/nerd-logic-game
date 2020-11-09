@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using System.Collections.Specialized;
+using System.Reflection.Emit;
+using System;
 
 public abstract class BaseLevelController : MonoBehaviour
 {
@@ -11,9 +15,10 @@ public abstract class BaseLevelController : MonoBehaviour
     // scene manager (for now).  I might add code to instantiate each
     // component and draw the wires at a later time.
     protected string _logic_in_level = "";
+    protected string _parts_list = "";
     protected static int _level = 1;
-    protected const int _maxLevel = 12;
-    protected int _clock_period = 0;
+    protected const int _maxLevel = 13;
+    [SerializeField] protected int _clock_period = 0;
     protected static int _totalCoins = 0;
     protected int _centiCoinsThisLevel = 10000;
     protected Text tc_text, cc_text, glitch_text;
@@ -43,17 +48,131 @@ public abstract class BaseLevelController : MonoBehaviour
         // Debug.Log("In base SetLogicString");
     }
 
+    // Awake is called as soon as the scripts are loaded
     public void Awake()
     {
         // Debug.Log("In LC Awake()");
         SetLogicString();
     }
 
-    // Start is called before the first frame update
+    protected InputSwitch InputSwitch1;
+
+    public void InstantiatePartsList()
+    {
+        // if (_parts_list == "") return;
+        string[] parts = _parts_list.Split(' ');
+        Debug.Log("in instantiate parts list " + this.name + ", part list length = " + parts.Length + "parts list = " + _parts_list);
+        // 5 fields in parts list
+        // InstanceName SpriteName x y scale
+        for (int i = 0; i < parts.Length; i += 5)
+        {
+            GameObject partsGO = new GameObject();
+            partsGO.name = parts[i];
+            BasicGate mycomp;
+            Debug.Log("in instantiate parts[" + i + "] = " + parts[i]);
+
+            switch (parts[i + 1])
+            {
+                case "SwitchDown":
+                    partsGO.AddComponent<InputSwitch>();
+                    mycomp = partsGO.GetComponent<InputSwitch>();
+                    break;
+                case "NandGate":
+                    partsGO.AddComponent<NandGate>();
+                    mycomp = partsGO.GetComponent<NandGate>();
+                    break;
+                case "AndGate":
+                    partsGO.AddComponent<AndGate>();
+                    mycomp = partsGO.GetComponent<AndGate>();
+                    break;
+                case "NorGate":
+                    partsGO.AddComponent<NorGate>();
+                    mycomp = partsGO.GetComponent<NorGate>();
+                    break;
+                case "OrGate":
+                    partsGO.AddComponent<OrGate>();
+                    mycomp = partsGO.GetComponent<OrGate>();
+                    break;
+                case "LightBulbOff":
+                    partsGO.AddComponent<LightBulb>();
+                    mycomp = partsGO.GetComponent<LightBulb>();
+                    break;
+                default:
+                    Debug.Log("Bad component type:  " + parts[i + 1]);
+                    break;
+            }
+            partsGO.transform.Translate(float.Parse(parts[i + 2]), float.Parse(parts[i + 3]), 0);
+            float myscale = float.Parse(parts[i + 4]);
+            partsGO.transform.localScale = new Vector3(myscale,myscale,myscale);
+            partsGO.AddComponent<SpriteRenderer>();
+            Sprite mysprite = Resources.Load<Sprite>(parts[i+1]);
+            partsGO.GetComponent<SpriteRenderer>().sprite = mysprite;
+            partsGO.AddComponent<BoxCollider2D>();
+        }
+    }
+
+    protected void WireCircuit()
+    {
+        string[] logic_components = GetThisLevelsComponents();
+        for (int i = 0; i < logic_components.Length; i += 4)
+        {
+            Debug.Log("in wire circuit source = " + logic_components[i] + " dest = " + logic_components[i+2]);
+            GameObject mysource = GameObject.Find(logic_components[i]);
+            GameObject mydestination = GameObject.Find(logic_components[i + 2]);
+            BasicGate mysource_gate = mysource.GetComponent(typeof(BasicGate)) as BasicGate;
+            BasicGate mydestination_gate = mydestination.GetComponent(typeof(BasicGate)) as BasicGate;
+            Debug.Log("in wire circuit mysoure_gate = " + mysource_gate.name);
+            Debug.Log("       dest = " + mydestination.name);
+            Debug.Log("       dest gate = " + mydestination_gate.name);
+
+            mysource.AddComponent<LineRenderer>();
+            LineRenderer mylr = mysource.GetComponent<LineRenderer>();
+            mylr.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
+            mylr.positionCount = 4;
+            float startx_adjust = 1.0f;
+            float starty_adjust = 0.0f;
+            startx_adjust = mysource_gate.output_x_adjust();
+            starty_adjust = mysource_gate.output_y_adjust();
+
+            float startx = mysource.transform.position.x + startx_adjust;
+            float starty = mysource.transform.position.y + starty_adjust;
+            float endx_adjust = -1;
+            float endy_adjust = 0;
+            switch (logic_components[i + 3])
+            {
+                case "a":
+                    endx_adjust = mydestination_gate.inputa_x_adjust();
+                    endy_adjust = mydestination_gate.inputa_y_adjust();
+                    break;
+                case "b":
+                    endx_adjust = mydestination_gate.inputb_x_adjust();
+                    endy_adjust = mydestination_gate.inputb_y_adjust();
+                    break;
+                case "d":
+                    endx_adjust = mydestination_gate.inputd_x_adjust();
+                    endy_adjust = mydestination_gate.inputd_y_adjust();
+                    break;
+                case "ck":
+                    endx_adjust = mydestination_gate.inputck_x_adjust();
+                    endy_adjust = mydestination_gate.inputck_y_adjust();
+                    break;
+            }
+            float endx = mydestination.transform.position.x + endx_adjust;
+            float endy = mydestination.transform.position.y + endy_adjust;
+
+            Vector3[] positions = new Vector3[4];
+            float middlex = (float)(startx + endx) / 2.0f;
+            positions[0] = new Vector3(startx, starty,0);
+            positions[1] = new Vector3(middlex, starty, 0);
+            positions[2] = new Vector3(middlex, endy, 0);
+            positions[3] = new Vector3(endx, endy,0);
+            mylr.SetPositions(positions);
+            
+        }
+    }
+            // Start is called before the first frame update
     protected void Start()
     {
-
-        
         // Debug.Log("in LC start, level = " + _level);
         _scoreAdded = false;
         // Canvas
@@ -148,6 +267,7 @@ public abstract class BaseLevelController : MonoBehaviour
         if (_lb.Switched() || _lb.Glitched())
         {
             // Debug.Log(" in update LC, switched = " + _lb.Switched() + " glitched = " + _lb.Glitched());
+            cc_text.color = Color.gray;
             if (!_scoreAdded)
             {
                 _totalCoins += (int)((float)_centiCoinsThisLevel / 100.0);

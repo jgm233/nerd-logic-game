@@ -474,7 +474,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5342ca7a729514eaa4190c6e98cf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switch_value: 0
+  _a: 0
+  _b: 0
+  _out: 0
 --- !u!120 &145687378
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1254,7 +1256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5342ca7a729514eaa4190c6e98cf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switch_value: 0
+  _a: 0
+  _b: 0
+  _out: 0
 --- !u!212 &711301040
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1704,7 +1708,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: aaba993c4d7a5cf4ba8061538200d4d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0b2a51c5aabf114381c365e096febd6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1767,6 +1771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6fe0cce6128f146aa933b8b3c4427c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clock_period: 0
 --- !u!1 &1221939512
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,7 +2245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cee0fc6137384c975bb728dde1531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _input_value: 0
+  _a: 0
+  _b: 0
+  _out: 0
   _starting_value: 0
   _switched: 0
   _clock_last_switched: 0

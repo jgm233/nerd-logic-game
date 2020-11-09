@@ -11,7 +11,7 @@ public class Level4Controller : BaseLevelController
          "InputSwitch2 _out AndGate1 b " +
          "InputSwitch3 _out NandGate1 b " +
          "AndGate1 _out NandGate1 a " +
-         "NandGate1 _out LightBulb input";
+         "NandGate1 _out LightBulb a";
         Debug.Log("In SLS L4C, _logic_in_level = " + _logic_in_level);
     }
 }

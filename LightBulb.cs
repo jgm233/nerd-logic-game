@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-public class LightBulb : MonoBehaviour
+public class LightBulb : BasicGate
 {
-    [SerializeField] private bool _input_value = false;
-    private Sprite _mysprite;
     [SerializeField] private bool _starting_value;
     [SerializeField] private bool _switched = false;
     [SerializeField] private int _clock_last_switched = 0;
@@ -12,11 +10,11 @@ public class LightBulb : MonoBehaviour
 
     //This has to be done after the switches
     // have all evaluated the first time
-    public void Start()
+    public override void Start()
     {
         //Debug.Log("in LB Start");
-        _starting_value = _input_value;
-        _last_value = _input_value;
+        _starting_value = _a;
+        _last_value = _a;
         _switched = false;
         _glitched = false;
         //Debug.Log("in SSV, switched = " + _switched);
@@ -35,30 +33,34 @@ public class LightBulb : MonoBehaviour
         // Debug.Log("switched = " + _switched);
     }
 
-    public void InputChanged_input(bool new_value)
+    public override void InputChanged_a(bool new_value)
     {
-        if (_input_value == new_value) return;
-        _switched = true;
-        _input_value = new_value;
+        if (_a == new_value) return;
         BaseLevelController _lc = FindObjectOfType<BaseLevelController>();
         int clock_period = _lc.GetClockPeriod();
-        if (clock_period == _clock_last_switched && !_glitched)
-           _glitched = (_last_value != _input_value);
-        // Debug.Log("In " + this.name + " InputChanged, input_value = " + _input_value + ", clock = " + _lc.GetClockPeriod());
+        if (clock_period != 0) 
+            _switched = true;
+        _a = new_value;
+        if (clock_period == _clock_last_switched && !_glitched && clock_period != 0)
+           _glitched = (_last_value != _a);
+        // Debug.Log("In " + this.name + " InputChanged, input_value = " + _a + ", clock = " + _lc.GetClockPeriod());
         // Debug.Log("In " + this.name + " InputChanged, last_value = " + _last_value + " glitched = " + _glitched);
         // Debug.Log("In " + this.name + " InputChanged, clock_last_switched = " + _clock_last_switched);
-        if (_input_value == false)
+        if (_a == false)
         {
-            _mysprite = Resources.Load<Sprite>("Light bulb off transparent");
-            GetComponent<SpriteRenderer>().sprite = _mysprite;
+            Sprite mysprite = Resources.Load<Sprite>("LightBulbOff");
+            GetComponent<SpriteRenderer>().sprite = mysprite;
         }
         else
         {
-            _mysprite = Resources.Load<Sprite>("Light bulb on transparent");
-            GetComponent<SpriteRenderer>().sprite = _mysprite;
+            Sprite mysprite = Resources.Load<Sprite>("LightBulbOn");
+            GetComponent<SpriteRenderer>().sprite = mysprite;
         }
-        _last_value = _input_value;
+        _last_value = _a;
         _clock_last_switched = clock_period;
         // Debug.Log("In lightbulb, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
     }
+
+    // Clicking on the light bulb doesn't do anything
+    public override void OnMouseDown() { }
 }

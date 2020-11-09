@@ -12,7 +12,7 @@ public class Level8Controller : BaseLevelController
             "InputSwitch4 _out NandGate2 b " +
             "NandGate1 _out AndGate1 a " +
             "NandGate2 _out AndGate1 b " +
-            "AndGate1 _out LightBulb input";
+            "AndGate1 _out LightBulb a";
         Debug.Log("In SLS L8C, _logic_in_level = " + _logic_in_level);
     }
 }

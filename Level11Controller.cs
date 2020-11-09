@@ -12,7 +12,7 @@ public class Level11Controller : BaseLevelController
             "Inverter1 _out AndGate1 a " +
             "FF1 q FF2 d " +
             "FF2 q AndGate1 b " +
-            "AndGate1 _out LightBulb input";
+            "AndGate1 _out LightBulb a";
         Debug.Log("In SLS L11C, _logic_in_level = " + _logic_in_level);
     }
 }

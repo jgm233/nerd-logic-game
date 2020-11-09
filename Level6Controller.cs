@@ -10,7 +10,7 @@ public class Level6Controller : BaseLevelController
          "InputSwitch1 _out AndGate1 a " +
          "InputSwitch1 _out Inverter1 a " +
          "Inverter1 _out AndGate1 b " +
-         "AndGate1 _out LightBulb input";
+         "AndGate1 _out LightBulb a";
         Debug.Log("In SLS L6C, _logic_in_level = " + _logic_in_level);
     }
 }

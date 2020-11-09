@@ -13,7 +13,7 @@ public class Level7Controller : BaseLevelController
             "InputSwitch3 _out Inverter2 a " +
             "Inverter2 _out OrGate1 b " +
             "NandGate1 _out OrGate1 a " +
-            "OrGate1 _out LightBulb input";
+            "OrGate1 _out LightBulb a";
         Debug.Log("In SLS L7C, _logic_in_level = " + _logic_in_level);
     }
 }
