@@ -594,7 +594,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5342ca7a729514eaa4190c6e98cf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switch_value: 0
+  _a: 0
+  _b: 0
+  _out: 0
 --- !u!120 &145687378
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1162,7 +1164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5342ca7a729514eaa4190c6e98cf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switch_value: 0
+  _a: 0
+  _b: 0
+  _out: 0
 --- !u!212 &711301040
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1327,6 +1331,50 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!1 &817540528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 817540530}
+  - component: {fileID: 817540529}
+  m_Layer: 0
+  m_Name: GameModeButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &817540529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817540528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 205dc5fdce27e3342b479f7362e9f0d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameMode: 1
+--- !u!4 &817540530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817540528}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.55, y: -7.066097, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1144716506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,6 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc84e36d925c02149a361cad4eb04300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clock_period: 0
 --- !u!1 &1221939512
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,7 +1843,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cee0fc6137384c975bb728dde1531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _input_value: 0
+  _a: 0
+  _b: 0
+  _out: 0
   _starting_value: 0
   _switched: 0
   _clock_last_switched: 0

@@ -13,6 +13,7 @@ public class Level5Controller : BaseLevelController
          "InputSwitch3 _out NandGate1 b " +
          "AndGate1 _out NandGate1 a " +
          "NandGate1 _out LightBulb a";
+        SetHintString("Watch out for the inverter on one of the switches");
         Debug.Log("In SLS L5C, _logic_in_level = " + _logic_in_level);
     }
 }

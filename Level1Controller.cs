@@ -16,7 +16,7 @@ public abstract class BaseLevelController : MonoBehaviour
     protected string _logic_in_level = "";
     protected string _parts_list = "";
     protected static int _level = 1;
-    protected const int _maxLevel = 13;
+    protected const int _maxLevel = 14;
     [SerializeField] protected int _clock_period = 0;
     protected static int _totalCoins = 0;
     protected int _centiCoinsThisLevel = 10000;
@@ -26,6 +26,8 @@ public abstract class BaseLevelController : MonoBehaviour
     protected GameObject myText;
     protected Canvas myCanvas;
     protected RectTransform rectTransform;
+
+    public int GetLevel() { return _level; }
 
     public void AdvanceClock()
     {
@@ -51,6 +53,8 @@ public abstract class BaseLevelController : MonoBehaviour
     public void Awake()
     {
         // Debug.Log("In LC Awake()");
+        GameMode mygamemode = FindObjectOfType<GameMode>();
+        mygamemode.SetPlayMode();
         SetLogicString();
     }
 
@@ -217,6 +221,17 @@ public abstract class BaseLevelController : MonoBehaviour
         AddText();
     }
 
+    protected string _hint_string;
+    public string GetHintString()
+    {
+        return _hint_string;
+    }
+
+    public void SetHintString(string input_string)
+    {
+        _hint_string = input_string;
+    }
+
     public virtual void AddText()
     {
         // Total coins Text
@@ -289,6 +304,8 @@ public abstract class BaseLevelController : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+        GameMode mygamemode = FindObjectOfType<GameMode>();
+        if (!mygamemode.IsInPlayMode()) return;
         LightBulb _lb = FindObjectOfType<LightBulb>();
         if (!_lb) return;
         if (_lb.Switched() || _lb.Glitched())

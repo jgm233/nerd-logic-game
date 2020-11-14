@@ -23,6 +23,7 @@ public class Level12Controller : BaseLevelController
             "AndGate2 out OrGate1 b " +
             "OrGate2 out FF2 d " +
             "OrGate1 out FF1 d";
+        SetHintString("Single input go-no go 4-state state-machine using edge-triggered flip-flops");
         Debug.Log("In SLS L12C, _logic_in_level = " + _logic_in_level);
     }
 

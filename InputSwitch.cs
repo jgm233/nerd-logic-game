@@ -6,25 +6,45 @@ public class InputSwitch : BasicGate
 
     public override void OnMouseDown()
     {
-        GetComponent<SpriteRenderer>().color = Color.green;
-        _out = !_out;
-        Debug.Log("in switch mouse down value is now " + _out);
-        if (_out == false)
+        GameMode mygamemode = FindObjectOfType<GameMode>();
+        if (mygamemode.IsInPlacementMode())
         {
-            Sprite mysprite = Resources.Load<Sprite>("SwitchDown");
-            GetComponent<SpriteRenderer>().sprite = mysprite;
+            if (IsPlacedGate())
+            {
+                Destroy(gameObject);
+                return;
+            }
+            _newGate = Instantiate(this);
+            _newGate.name = this.name + _newGateCount.ToString();
+            _newGateCount++;
         }
-        else
+        else if (mygamemode.IsInRouteMode())
         {
-            Sprite mysprite = Resources.Load<Sprite>("SwitchUp");
-            GetComponent<SpriteRenderer>().sprite = mysprite;
-        }
-        Debug.Log("In switch mouse down, mysprite = " + 
-                GetComponent<SpriteRenderer>().sprite.name);
-        BaseLevelController _lc = FindObjectOfType<BaseLevelController>();
-        _lc.AdvanceClock();
 
-        PropagateOutput();
+        }
+        else  // Must be in Play mode
+        {
+
+            GetComponent<SpriteRenderer>().color = Color.green;
+            _out = !_out;
+            Debug.Log("in switch mouse down value is now " + _out);
+            if (_out == false)
+            {
+                Sprite mysprite = Resources.Load<Sprite>("SwitchDown");
+                GetComponent<SpriteRenderer>().sprite = mysprite;
+            }
+            else
+            {
+                Sprite mysprite = Resources.Load<Sprite>("SwitchUp");
+                GetComponent<SpriteRenderer>().sprite = mysprite;
+            }
+            Debug.Log("In switch mouse down, mysprite = " +
+                    GetComponent<SpriteRenderer>().sprite.name);
+            BaseLevelController _lc = FindObjectOfType<BaseLevelController>();
+            _lc.AdvanceClock();
+
+            PropagateOutput();
+        }
     }
 
     

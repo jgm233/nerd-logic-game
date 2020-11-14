@@ -14,6 +14,7 @@ public class Level7Controller : BaseLevelController
             "Inverter2 _out OrGate1 b " +
             "NandGate1 _out OrGate1 a " +
             "OrGate1 _out LightBulb a";
+        SetHintString("The final gate is an OR gate with Demorgans transformation");
         Debug.Log("In SLS L7C, _logic_in_level = " + _logic_in_level);
     }
 }

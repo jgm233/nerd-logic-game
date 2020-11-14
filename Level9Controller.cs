@@ -10,6 +10,7 @@ public class Level9Controller : BaseLevelController
             "NandGate1 _out NandGate2 a " +
             "NandGate2 _out NandGate1 b " +
             "NandGate1 _out LightBulb a";
+        SetHintString("SR latch, low inputs set and reset the latch");
         Debug.Log("In SLS L9C, _logic_in_level = " + _logic_in_level);
     }
 }

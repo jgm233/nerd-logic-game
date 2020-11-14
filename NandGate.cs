@@ -1,22 +1,66 @@
 ﻿using System.IO.Compression;
 using System.Security.Permissions;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 public abstract class BasicGate : MonoBehaviour
 {
     [SerializeField] protected bool _a, _b, _out;
     protected bool _show_output_value = false;
+    protected BasicGate _newGate;
+    protected int _newGateCount = 1;
 
     public virtual void Start()
     {
         // Debug.Log("In " + this.name + " start out =  " + _out);
+
         EvaluateGate();
+    }
+
+    // All placed gates must have a number at the end of the name
+    public bool IsPlacedGate()
+    {
+        string pattern = @"\d$";
+        Match m = Regex.Match(this.name, pattern);
+        return (m.Success);
     }
 
     public virtual void OnMouseDown()
     {
-        _show_output_value = !_show_output_value;
+        GameMode mygamemode = FindObjectOfType<GameMode>();
+        if (mygamemode.IsInPlacementMode())
+        {
+            if (IsPlacedGate())
+            {
+                Destroy(gameObject);
+                return;
+            }
+            _newGate = Instantiate(this);
+            _newGate.name = this.name + _newGateCount.ToString();
+            _newGateCount++;       
+        } else if (mygamemode.IsInRouteMode())
+        {
+
+        } else  // Must be in Play mode
+        {
+            _show_output_value = !_show_output_value;
+        }
+
     }
+
+
+    public void OnMouseDrag()
+    {
+        // No dragging in play mode, only in Placement and route.
+        GameMode mygamemode = FindObjectOfType<GameMode>();
+        if (mygamemode.IsInPlayMode()) return;
+
+        Vector3 newGatePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        newGatePosition.z = 0;
+        // Debug.Log("new gate position = " + newGatePosition);
+        _newGate.transform.position = newGatePosition;
+    }
+
 
     public void Update()
     {

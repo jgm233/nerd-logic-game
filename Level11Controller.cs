@@ -13,6 +13,7 @@ public class Level11Controller : BaseLevelController
             "FF1 q FF2 d " +
             "FF2 q AndGate1 b " +
             "AndGate1 _out LightBulb a";
+        SetHintString("Serial shift register that detects '10' pattern using edge-triggered flip-flops");
         Debug.Log("In SLS L11C, _logic_in_level = " + _logic_in_level);
     }
 }

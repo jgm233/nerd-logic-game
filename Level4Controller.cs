@@ -12,6 +12,7 @@ public class Level4Controller : BaseLevelController
          "InputSwitch3 _out NandGate1 b " +
          "AndGate1 _out NandGate1 a " +
          "NandGate1 _out LightBulb a";
+        SetHintString("NAND gates: same as AND + inverter on the output");
         Debug.Log("In SLS L4C, _logic_in_level = " + _logic_in_level);
     }
 }

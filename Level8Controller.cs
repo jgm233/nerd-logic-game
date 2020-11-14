@@ -13,6 +13,7 @@ public class Level8Controller : BaseLevelController
             "NandGate1 _out AndGate1 a " +
             "NandGate2 _out AndGate1 b " +
             "AndGate1 _out LightBulb a";
+        SetHintString("The final gate is an AND gate with Demorgans transformation");
         Debug.Log("In SLS L8C, _logic_in_level = " + _logic_in_level);
     }
 }
