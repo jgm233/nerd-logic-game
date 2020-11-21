@@ -2,8 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor;
-using System.Security.Principal;
-using System.Collections.Specialized;
 
 public abstract class BaseLevelController : MonoBehaviour
 {
@@ -13,8 +11,8 @@ public abstract class BaseLevelController : MonoBehaviour
     // The instantiations for each component is handled in the
     // scene manager (for now).  I might add code to instantiate each
     // component and draw the wires at a later time.
-    protected string _logic_in_level = "";
-    protected string _parts_list = "";
+    [SerializeField] protected string  _wire_list = "";
+    [SerializeField] protected string _parts_list = "";
     protected static int _level = 1;
     protected const int _maxLevel = 14;
     [SerializeField] protected int _clock_period = 0;
@@ -39,10 +37,10 @@ public abstract class BaseLevelController : MonoBehaviour
         return _clock_period;
     }
 
-    public string[] GetThisLevelsComponents()
+    public string[] GetWireList()
     {
-        // Debug.Log("logic string for level " + _level + " = " + _logic_in_level);
-        return (_logic_in_level.Split(' '));
+        // Debug.Log("wire list for level " + _level + " = '" +  _wire_list + "'");
+        return ( _wire_list.Split(' '));
     }
 
     public virtual void SetLogicString() {
@@ -54,17 +52,27 @@ public abstract class BaseLevelController : MonoBehaviour
     {
         // Debug.Log("In LC Awake()");
         GameMode mygamemode = FindObjectOfType<GameMode>();
-        mygamemode.SetPlayMode();
+        mygamemode.SetPlayModeOnly();
         SetLogicString();
     }
 
-    protected InputSwitch InputSwitch1;
+    public void SetPartsList(string new_parts_list)
+    {
+        _parts_list = new_parts_list;
+    }
+
+    public void AddToWireList(string wire_element)
+    {
+        _wire_list = _wire_list + " " + wire_element;
+        _wire_list = _wire_list.Trim(' ');
+        // Debug.Log(" in AddToWireList = " + wire_element);
+    }
 
     public void InstantiatePartsList()
     {
         // if (_parts_list == "") return;
         string[] parts = _parts_list.Split(' ');
-        Debug.Log("in instantiate parts list " + this.name + ", part list length = " + parts.Length + "parts list = " + _parts_list);
+        // Debug.Log("in instantiate parts list " + this.name + ", part list length = " + parts.Length + "parts list = " + _parts_list);
         // 5 fields in parts list
         // InstanceName SpriteName x y scale
         for (int i = 0; i < parts.Length; i += 5)
@@ -72,7 +80,7 @@ public abstract class BaseLevelController : MonoBehaviour
             GameObject partsGO = new GameObject();
             partsGO.name = parts[i];
             BasicGate mycomp;
-            Debug.Log("in instantiate parts[" + i + "] = " + parts[i]);
+            // Debug.Log("in instantiate parts[" + i + "] = " + parts[i]);
 
             switch (parts[i + 1])
             {
@@ -122,19 +130,27 @@ public abstract class BaseLevelController : MonoBehaviour
         }
     }
 
-    protected void WireCircuit()
+    public void WireCircuit()
     {
-        string[] logic_components = GetThisLevelsComponents();
-        for (int i = 0; i < logic_components.Length; i += 4)
+        string[] wire_list = GetWireList();
+        if (wire_list.Length < 4) return;
+        // Debug.Log("in wire circuit, length = " + wire_list.Length);
+        // Debug.Log("in wire circuit, _wire_list = '" + _wire_list + "'");
+        // Debug.Log("in wire circuit, wire_list[] = '" + wire_list[0] + "', '" +
+        //                                           wire_list[1] + "', '" +
+        //                                           wire_list[2] + "', '" +
+        //                                           wire_list[3] + "'");
+
+        for (int i = 0; i < wire_list.Length; i += 4)
         {
-            Debug.Log("in wire circuit source = " + logic_components[i] + " dest = " + logic_components[i+2]);
-            GameObject mysource = GameObject.Find(logic_components[i]);
-            GameObject mydestination = GameObject.Find(logic_components[i + 2]);
+            // Debug.Log("in wire circuit source = " + wire_list[i] + " dest = " + wire_list[i+2]);
+            GameObject mysource = GameObject.Find(wire_list[i]);
+            GameObject mydestination = GameObject.Find(wire_list[i + 2]);
             BasicGate mysource_gate = mysource.GetComponent(typeof(BasicGate)) as BasicGate;
             BasicGate mydestination_gate = mydestination.GetComponent(typeof(BasicGate)) as BasicGate;
-            Debug.Log("in wire circuit mysoure_gate = " + mysource_gate.name);
-            Debug.Log("       dest = " + mydestination.name);
-            Debug.Log("       dest gate = " + mydestination_gate.name);
+            // Debug.Log("in wire circuit mysoure_gate = " + mysource_gate.name);
+            // Debug.Log("       dest = " + mydestination.name);
+            // Debug.Log("       dest gate = " + mydestination_gate.name);
 
             float startx_adjust = mysource_gate.output_x_adjust();
             float starty_adjust = mysource_gate.output_y_adjust();
@@ -143,14 +159,14 @@ public abstract class BaseLevelController : MonoBehaviour
             float starty = mysource.transform.position.y + starty_adjust;
             float endx_adjust = -1;
             float endy_adjust = 0;
-            switch (logic_components[i + 3])
+            switch (wire_list[i + 3])
             {
                 case "a":
                     endx_adjust = mydestination_gate.inputa_x_adjust();
                     endy_adjust = mydestination_gate.inputa_y_adjust();
-                    Debug.Log("Destination " + logic_components[i + 2] + "/" + logic_components[i + 3]
-                        + " endx adjust = " + endx_adjust
-                        + " endy adjust = " + endy_adjust);
+                    //Debug.Log("Destination " + wire_list[i + 2] + "/" + wire_list[i + 3]
+                    //    + " endx adjust = " + endx_adjust
+                    //     + " endy adjust = " + endy_adjust);
                     break;
                 case "b":
                     endx_adjust = mydestination_gate.inputb_x_adjust();
@@ -171,11 +187,11 @@ public abstract class BaseLevelController : MonoBehaviour
 
             Vector3[] positions;
             LineRenderer mylr = mysource.GetComponent<LineRenderer>();
-            if (!mylr)
+            if (!mylr || mylr.positionCount < 2)
             {
                 // Create a new route from the source to the destination
-                Debug.Log("    First segment destination = " + mydestination_gate.name);
-                mysource.AddComponent<LineRenderer>();
+                // Debug.Log("    First segment destination = " + mydestination_gate.name);
+                if (!mylr) mysource.AddComponent<LineRenderer>();
                 mylr = mysource.GetComponent<LineRenderer>();
                 positions = new Vector3[4];
                 positions[0] = new Vector3(startx, starty, 0);
@@ -188,7 +204,8 @@ public abstract class BaseLevelController : MonoBehaviour
             {
                 // Adding onto an existing route by backtracing one segment, then adding two more 
                 // segments to the line
-                Debug.Log("    Next segment destination = " + mydestination_gate.name);
+                // Debug.Log("    Next segment destination = " + mydestination_gate.name);
+                // Debug.Log("     old_position_count = " + mylr.positionCount);
                 int old_position_count = mylr.positionCount;
                 positions = new Vector3[old_position_count + 3];
                 mylr.GetPositions(positions);

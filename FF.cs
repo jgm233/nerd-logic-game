@@ -14,7 +14,7 @@ public class FF : BasicGate
     public void LockDInput()
     {
         _locked_d = _d;
-        Debug.Log("In LockDInput for FF " + this.name + " _locked_d = " + _locked_d);
+        // Debug.Log("In LockDInput for FF " + this.name + " _locked_d = " + _locked_d);
     }
 
     public void InputChanged_ck(bool input_value)
@@ -28,7 +28,7 @@ public class FF : BasicGate
 
     public void InputChanged_d(bool input_value)
     {
-        Debug.Log("In " + this.name + " InputChanged_d, input_value = " + input_value);
+        // Debug.Log("In " + this.name + " InputChanged_d, input_value = " + input_value);
           _d = input_value;
     }
 
@@ -38,5 +38,10 @@ public class FF : BasicGate
     public override float inputd_y_adjust() { return 0.25f; }
     public override float inputck_x_adjust() { return -0.3f; }
     public override float inputck_y_adjust() { return 0.8f; }
+
+    public override string GateInputs()
+    {
+        return "d ck";
+    }
 
 }

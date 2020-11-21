@@ -61,9 +61,17 @@ public class LightBulb : BasicGate
         // Debug.Log("In lightbulb, mysprite = " + GetComponent<SpriteRenderer>().sprite.name);
     }
 
-    
+    public override float MyScale()
+    {
+        return 0.1f;
+    }
+
 
     public override float inputa_x_adjust() { return 0.0f; }
     public override float inputa_y_adjust() { return -2.0f; }
 
+    public override string GateInputs()
+    {
+        return "a";
+    }
 }

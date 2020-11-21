@@ -4,7 +4,7 @@ public class Level11Controller : BaseLevelController
 {
     public override void SetLogicString()
     {
-        _logic_in_level =
+         _wire_list =
         "InputSwitch1 _out FF1 ck " +
             "InputSwitch1 _out FF2 ck " +
             "InputSwitch2 _out FF1 d " +
@@ -14,6 +14,6 @@ public class Level11Controller : BaseLevelController
             "FF2 q AndGate1 b " +
             "AndGate1 _out LightBulb a";
         SetHintString("Serial shift register that detects '10' pattern using edge-triggered flip-flops");
-        Debug.Log("In SLS L11C, _logic_in_level = " + _logic_in_level);
+        // Debug.Log("In SLS L11C,  _wire_list = " +  _wire_list);
     }
 }

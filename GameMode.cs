@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
@@ -48,10 +45,23 @@ public class GameMode : MonoBehaviour
         BaseLevelController lc = FindObjectOfType<BaseLevelController>();
         lc.SetHintString("Click and drag from outputs to inputs, click again to delete");
         _gameMode = MyGameMode.Route;
+        string parts_list = "";
         BasicGate[] all_gates = FindObjectsOfType<BasicGate>();
         foreach (BasicGate mygate in all_gates) {
-            if (!mygate.IsPlacedGate()) Destroy(mygate.gameObject);
+            if (!mygate.IsPlacedGate())
+            {
+                Destroy(mygate.gameObject);
+            } else
+            {
+                parts_list = parts_list +
+                    mygate.name + " DummySprite " +
+                    mygate.transform.position.x + " " +
+                    mygate.transform.position.y + " 0.5 ";
+            }
         }
+        parts_list.Trim(' ');
+        lc.SetPartsList(parts_list);
+        // Debug.Log(" in set route mode, parts_list = '" + parts_list + "'");
         SpriteRenderer mysr = GetComponent<SpriteRenderer>();
         if (mysr)
         {
@@ -60,11 +70,33 @@ public class GameMode : MonoBehaviour
         }
      }
 
-    public void SetPlayMode()
+    // Called at the beginning of the level
+    public void SetPlayModeOnly()
     {
+        _gameMode = MyGameMode.Play;
+    }
+
+    // Called if transitioning from Route to Play
+    public void SetPlayMode()
+        {
+        // Debug.Log("In SetPlayMode()");
+        BasicGate[] all_gates = FindObjectsOfType<BasicGate>();
+        // Clear out the fly line from Route Mode
+        foreach (BasicGate mygate in all_gates)
+        {
+            LineRenderer mylr = mygate.GetComponent<LineRenderer>();
+            if (mylr) mylr.positionCount = 0;
+        }
+
         BaseLevelController lc = FindObjectOfType<BaseLevelController>();
         lc.SetHintString("Solve your own puzzle!");
+        lc.WireCircuit();
         _gameMode = MyGameMode.Play;
+        foreach (BasicGate mygate in all_gates)
+        {
+            mygate.PropagateOutput();
+        }
+
         SpriteRenderer mysr = GetComponent<SpriteRenderer>();
         if (mysr)
         {
@@ -88,7 +120,8 @@ public class GameMode : MonoBehaviour
             case MyGameMode.Placement:
                 LightBulb[] light_bulbs = FindObjectsOfType<LightBulb>();
                 InputSwitch[] input_switches = FindObjectsOfType<InputSwitch>();
-                if (input_switches.Length > 1 && light_bulbs.Length > 1)  SetRouteMode();
+                if (input_switches.Length > 1 && light_bulbs.Length > 1)
+                    SetRouteMode();
                 break;
             case MyGameMode.Route:
                 SetPlayMode();

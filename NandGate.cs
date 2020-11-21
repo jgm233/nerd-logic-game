@@ -1,6 +1,6 @@
-﻿using System.IO.Compression;
-using System.Security.Permissions;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 using System.Text.RegularExpressions;
 
 public abstract class BasicGate : MonoBehaviour
@@ -9,6 +9,7 @@ public abstract class BasicGate : MonoBehaviour
     protected bool _show_output_value = false;
     protected BasicGate _newGate;
     protected int _newGateCount = 1;
+    [SerializeField] protected static BasicGate _output_gate = null;
 
     public virtual void Start()
     {
@@ -17,6 +18,24 @@ public abstract class BasicGate : MonoBehaviour
         EvaluateGate();
     }
 
+    public virtual string GateInputs()
+    {
+        return "a b";
+    }
+    
+    public bool IsInputAvailable(string input_name)
+    {
+        BaseLevelController lc = FindObjectOfType<BaseLevelController>();
+        string[] wire_list = lc.GetWireList();       
+        if (wire_list.Length < 4) return true;
+        // Debug.Log("in IsInputAvailable, name = " + this.name);
+        for (int i = 0; i < wire_list.Length; i += 4) {
+            // Debug.Log("in IsInputAvailable, wl[2] = " + wire_list[2] + ", wl[3] =" + wire_list[3]);
+            if (wire_list[i + 2] == this.name && wire_list[i + 3] == input_name)
+                return false;
+        }
+        return true;
+    }
     // All placed gates must have a number at the end of the name
     public bool IsPlacedGate()
     {
@@ -37,33 +56,113 @@ public abstract class BasicGate : MonoBehaviour
             }
             _newGate = Instantiate(this);
             _newGate.name = this.name + _newGateCount.ToString();
+            _newGate.transform.localScale = new Vector3(MyScale(),MyScale(),MyScale());
             _newGateCount++;       
-        } else if (mygamemode.IsInRouteMode())
-        {
-
-        } else  // Must be in Play mode
+        } else if (mygamemode.IsInPlayMode())
         {
             _show_output_value = !_show_output_value;
+        } else // Must be in route
+        {
+            LineRenderer mylr = GetComponent<LineRenderer>();
+            Vector3[] positions = new Vector3[2];
+            positions[0] = this.transform.position;
+            Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            newPosition.z = 0;
+            positions[1] = newPosition;
+            // Debug.Log("In OnMouseDown for Route, this = " + this.name);
+            mylr.startWidth = 0.2f;
+            mylr.endWidth = 0.2f;
+            mylr.widthMultiplier = 0.2f;
+            mylr.startColor = Color.yellow;
+            mylr.endColor = Color.yellow;
+            mylr.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
+            mylr.positionCount = 2;
+            mylr.SetPositions(positions);
+            _output_gate = this;
+        }
+
+    }
+
+    public void OnMouseEnter()
+    {
+        GameMode mygamemode = FindObjectOfType<GameMode>();
+        if (mygamemode.IsInRouteMode() && _output_gate && _output_gate != this)
+        {
+            // Debug.Log("In OnMouseEnter, this = " + name);
+            string[] myinputs = GateInputs().Split(' ');
+            string found_input = "BadInput";
+            BaseLevelController lc = FindObjectOfType<BaseLevelController>();
+            lc.GetWireList();
+            foreach (string myinput in myinputs)
+            {
+                if (IsInputAvailable(myinput)) {
+                    // Debug.Log("In OnMouse Enter Found available input " + this.name + "/" + myinput);
+                    found_input = myinput;
+                    break;
+                }
+            }
+            if (found_input == "BadInput")
+            {
+                Debug.Log("Non inputs available on " + this);
+                return;
+            }
+            // BaseLevelController lc = FindObjectOfType<BaseLevelController>();
+            string wire_element = _output_gate.name + " out " + this.name + " " + found_input;
+            lc.AddToWireList(wire_element);
+            Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            newPosition.z = 0;
+            LineRenderer mylr = _output_gate.GetComponent<LineRenderer>();
+            int numPositions = mylr.positionCount;
+            Vector3[] positions = new Vector3[numPositions + 1];
+            mylr.GetPositions(positions);
+            positions[numPositions-1] = transform.position; 
+            positions[numPositions] = transform.position;
+            mylr.positionCount += 1;
+            mylr.SetPositions(positions);
+            // Debug.Log("In OnMouseEnter, added this to wire list: " + wire_element);
+
+        }
+    }
+
+    // Only really needed for Route mode
+    public void OnMouseUp()
+    {
+        // Only really needed for Route mode
+        _output_gate = null;
+        // Only really need for InputSwitch
+        GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    public void OnMouseDrag()
+    {
+        // No dragging in play mode, only in Placement and Route.
+        GameMode mygamemode = FindObjectOfType<GameMode>();
+        if (mygamemode.IsInPlacementMode())
+        {
+            Vector3 newGatePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            newGatePosition.z = 0;
+            // Debug.Log("new gate position = " + newGatePosition);
+            _newGate.transform.position = newGatePosition;
+        }
+        else if (mygamemode.IsInRouteMode())
+        {
+            Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            newPosition.z = 0;
+            LineRenderer mylr = GetComponent<LineRenderer>();
+            int numPositions = mylr.positionCount;
+            Vector3[] positions = new Vector3[numPositions];
+            mylr.GetPositions(positions);
+            positions[numPositions - 1] = newPosition;
+            mylr.SetPositions(positions);
         }
 
     }
 
 
-    public void OnMouseDrag()
-    {
-        // No dragging in play mode, only in Placement and route.
-        GameMode mygamemode = FindObjectOfType<GameMode>();
-        if (mygamemode.IsInPlayMode()) return;
-
-        Vector3 newGatePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        newGatePosition.z = 0;
-        // Debug.Log("new gate position = " + newGatePosition);
-        _newGate.transform.position = newGatePosition;
-    }
-
-
     public void Update()
     {
+        GameMode mygamemode = FindObjectOfType<GameMode>();
+        if (!mygamemode.IsInPlayMode()) return;
         LineRenderer _lr = GetComponent<LineRenderer>();
         if (!_lr) return;
         _lr.startWidth = 0.1f;
@@ -81,7 +180,6 @@ public abstract class BasicGate : MonoBehaviour
             {
                 _lr.startColor = Color.red;
                 _lr.endColor = Color.red;
-
             }
         }
         else
@@ -91,9 +189,14 @@ public abstract class BasicGate : MonoBehaviour
         }
     }
 
+    public virtual float MyScale()
+    {
+        return 0.3f;
+    }
+
     public virtual void EvaluateGate() { }
 
-    protected void PropagateOutput()
+    public void PropagateOutput()
     {
         BaseLevelController _levelController = FindObjectOfType<BaseLevelController>();
 
@@ -103,32 +206,32 @@ public abstract class BasicGate : MonoBehaviour
         }
         else
         {
-            string[] _logic_components = _levelController.GetThisLevelsComponents();
-            Debug.Log("in propagate outputs for " + this.name);
+            string[] wire_list = _levelController.GetWireList();
+            // Debug.Log("in propagate outputs for " + this.name);
             bool first_clock = true;
-            for (int i = 0; i < _logic_components.Length; i += 4)
+            for (int i = 0; i < wire_list.Length; i += 4)
             {
-                if (_logic_components[i] == this.name)
+                if (wire_list[i] == this.name)
                 {
-                    Debug.Log(" matched source name:  " + _logic_components[i] + ", dest = " + _logic_components[i+2]) ;
+                    // Debug.Log(" matched source name:  " + wire_list[i] + ", dest = " + wire_list[i+2]) ;
                     // On the first clock being driven, lock the FFs' inputs for the coming edge.
-                    if (_logic_components[i + 3] == "ck" && first_clock)
+                    if (wire_list[i + 3] == "ck" && first_clock)
                     {
                         FF[] ffs = FindObjectsOfType<FF>();
                         foreach (FF myff in ffs)
                             myff.LockDInput();
                         first_clock = false;
                     }
-                    GameObject _destination = GameObject.Find(_logic_components[i + 2]);
+                    GameObject _destination = GameObject.Find(wire_list[i + 2]);
                     if (_destination)
                     {
-                        _destination.SendMessage("InputChanged_" + _logic_components[i + 3],
+                        _destination.SendMessage("InputChanged_" + wire_list[i + 3],
                                              _out);
                     }
                 }
                 else
                 {
-                    // Debug.Log("not matched name:  " + _logic_components[i]);
+                    // Debug.Log("not matched name:  " + wire_list[i]);
                 }
             }
         }
@@ -147,7 +250,7 @@ public abstract class BasicGate : MonoBehaviour
 
     public void InputChanged_b(bool input_value)
     {
-        Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
+        // Debug.Log("In " + this.name + " InputChanged_b, input_value = " + input_value);
         _b = input_value;
         EvaluateGate();
     }

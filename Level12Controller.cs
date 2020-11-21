@@ -4,7 +4,7 @@ public class Level12Controller : BaseLevelController
 {
     public override void SetLogicString()
     {
-        _logic_in_level =
+         _wire_list =
           "InputSwitch1 out FF1 ck " +
             "InputSwitch1 out FF2 ck " +
             "FF1 q AndGate1 a " +
@@ -24,7 +24,7 @@ public class Level12Controller : BaseLevelController
             "OrGate2 out FF2 d " +
             "OrGate1 out FF1 d";
         SetHintString("Single input go-no go 4-state state-machine using edge-triggered flip-flops");
-        Debug.Log("In SLS L12C, _logic_in_level = " + _logic_in_level);
+        // Debug.Log("In SLS L12C,  _wire_list = " +  _wire_list);
     }
 
 }
