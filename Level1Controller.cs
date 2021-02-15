@@ -13,7 +13,7 @@ public abstract class BaseLevelController : MonoBehaviour
     // component and draw the wires at a later time.
     [SerializeField] protected string  _wire_list = "";
     [SerializeField] protected string _parts_list = "";
-    protected static int _level = 1;
+    [SerializeField] protected static int _level = 1;
     protected const int _maxLevel = 14;
     [SerializeField] protected int _clock_period = 0;
     protected static int _totalCoins = 0;
@@ -215,7 +215,7 @@ public abstract class BaseLevelController : MonoBehaviour
                 mylr.positionCount = old_position_count + 3;
             }
             mylr.SetPositions(positions);
-            mylr.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
+            // mylr.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
         }
     }
             // Start is called before the first frame update

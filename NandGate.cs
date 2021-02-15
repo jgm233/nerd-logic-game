@@ -75,7 +75,7 @@ public abstract class BasicGate : MonoBehaviour
             mylr.widthMultiplier = 0.2f;
             mylr.startColor = Color.yellow;
             mylr.endColor = Color.yellow;
-            mylr.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
+            // mylr.material = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
             mylr.positionCount = 2;
             mylr.SetPositions(positions);
             _output_gate = this;
